@@ -9,9 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\Filter;
+namespace Symfony\Component\Form\Renderer\Plugin;
 
-interface FilterChainInterface
+use Symfony\Component\Form\FieldInterface;
+use Symfony\Component\Form\Renderer\RendererInterface;
+
+interface RendererPluginInterface
 {
-    function filter($type, $data);
+    function setUp(FieldInterface $field, RendererInterface $renderer);
 }
