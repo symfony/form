@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
-use Symfony\Component\Form\ValueTransformer\TransformationFailedException;
+use Symfony\Component\Form\DataTransformer\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @author Bernhard Schussek <bernhard.schussek@symfony-project.com>
  */
-class FileToStringTransformer implements ValueTransformerInterface
+class FileToStringTransformer implements DataTransformerInterface
 {
     public function transform($file)
     {

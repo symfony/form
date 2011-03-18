@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 use Symfony\Component\Form\Configurable;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
- * Transforms between a timestamp and a DateTime object
+ * Transforms between a date string and a DateTime object
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
  * @author Florian Eckerstorfer <florian@eckerstorfer.org>
  */
-class DateTimeToTimestampTransformer extends Configurable implements ValueTransformerInterface
+class DateTimeToStringTransformer extends Configurable implements DataTransformerInterface
 {
     /**
      * {@inheritDoc}
@@ -29,20 +29,22 @@ class DateTimeToTimestampTransformer extends Configurable implements ValueTransf
     {
         $this->addOption('input_timezone', date_default_timezone_get());
         $this->addOption('output_timezone', date_default_timezone_get());
+        $this->addOption('format', 'Y-m-d H:i:s');
 
         parent::configure();
     }
 
     /**
-     * Transforms a DateTime object into a timestamp in the configured timezone
+     * Transforms a DateTime object into a date string with the configured format
+     * and timezone
      *
      * @param  DateTime $value  A DateTime object
-     * @return integer          A timestamp
+     * @return string           A value as produced by PHP's date() function
      */
     public function transform($value)
     {
         if (null === $value) {
-            return null;
+            return '';
         }
 
         if (!$value instanceof \DateTime) {
@@ -51,38 +53,38 @@ class DateTimeToTimestampTransformer extends Configurable implements ValueTransf
 
         $value->setTimezone(new \DateTimeZone($this->getOption('output_timezone')));
 
-        return (int)$value->format('U');
+        return $value->format($this->getOption('format'));
     }
 
     /**
-     * Transforms a timestamp in the configured timezone into a DateTime object
+     * Transforms a date string in the configured timezone into a DateTime object
      *
      * @param  string $value  A value as produced by PHP's date() function
      * @return DateTime       A DateTime object
      */
     public function reverseTransform($value)
     {
-        if (null === $value) {
+        if (empty($value)) {
             return null;
         }
 
-        if (!is_numeric($value)) {
-            throw new UnexpectedTypeException($value, 'numeric');
+        if (!is_string($value)) {
+            throw new UnexpectedTypeException($value, 'string');
         }
 
         $outputTimezone = $this->getOption('output_timezone');
         $inputTimezone = $this->getOption('input_timezone');
 
         try {
-            $dateTime = new \DateTime("@$value $outputTimezone");
+            $dateTime = new \DateTime("$value $outputTimezone");
 
             if ($inputTimezone != $outputTimezone) {
-                $dateTime->setTimezone(new \DateTimeZone($inputTimezone));
+                $dateTime->setTimeZone(new \DateTimeZone($inputTimezone));
             }
 
             return $dateTime;
         } catch (\Exception $e) {
-            throw new \InvalidArgumentException('Expected a valid timestamp. ' . $e->getMessage(), 0, $e);
+            throw new \InvalidArgumentException('Expected a valid date string. ' . $e->getMessage(), 0, $e);
         }
     }
 }

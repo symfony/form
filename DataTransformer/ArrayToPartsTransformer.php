@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 /**
  * @author Bernhard Schussek <bernhard.schussek@symfony-project.com>
  */
-class ArrayToPartsTransformer implements ValueTransformerInterface
+class ArrayToPartsTransformer implements DataTransformerInterface
 {
     private $partMapping;
 

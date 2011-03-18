@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 /**
  * Passes a value through multiple value transformers
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
  */
-class ValueTransformerChain implements ValueTransformerInterface
+class DataTransformerChain implements DataTransformerInterface
 {
     /**
      * The value transformers

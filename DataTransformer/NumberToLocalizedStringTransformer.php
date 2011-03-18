@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 use Symfony\Component\Form\Configurable;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
@@ -21,7 +21,7 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
  * @author Florian Eckerstorfer <florian@eckerstorfer.org>
  */
-class NumberToLocalizedStringTransformer extends Configurable implements ValueTransformerInterface
+class NumberToLocalizedStringTransformer extends Configurable implements DataTransformerInterface
 {
     const ROUND_FLOOR    = \NumberFormatter::ROUND_FLOOR;
     const ROUND_DOWN     = \NumberFormatter::ROUND_DOWN;

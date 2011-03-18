@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 /**
  * Reverses a transformer
@@ -19,20 +19,20 @@ namespace Symfony\Component\Form\ValueTransformer;
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
  */
-class ReversedTransformer implements ValueTransformerInterface
+class ReversedTransformer implements DataTransformerInterface
 {
     /**
      * The reversed transformer
-     * @var ValueTransformerInterface
+     * @var DataTransformerInterface
      */
     protected $reversedTransformer;
 
     /**
      * Reverses this transformer
      *
-     * @param ValueTransformerInterface $innerTransformer
+     * @param DataTransformerInterface $innerTransformer
      */
-    public function __construct(ValueTransformerInterface $reversedTransformer)
+    public function __construct(DataTransformerInterface $reversedTransformer)
     {
         $this->reversedTransformer = $reversedTransformer;
     }

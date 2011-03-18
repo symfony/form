@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
-class ScalarToChoicesTransformer implements ValueTransformerInterface
+class ScalarToChoicesTransformer implements DataTransformerInterface
 {
     private $choiceList;
 

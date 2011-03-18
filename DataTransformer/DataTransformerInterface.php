@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 /**
  * Transforms a value between different representations.
  *
  * @author     Bernhard Schussek <bernhard.schussek@symfony.com>
  */
-interface ValueTransformerInterface
+interface DataTransformerInterface
 {
     /**
      * Transforms a value from the original representation to a transformed representation.
@@ -42,7 +42,7 @@ interface ValueTransformerInterface
      * @param  mixed $value               The value in the original representation
      * @return mixed                      The value in the transformed representation
      * @throws UnexpectedTypeException    when the argument is no string
-     * @throws ValueTransformerException  when the transformation fails
+     * @throws DataTransformerException  when the transformation fails
      */
     function transform($value);
 
@@ -67,7 +67,7 @@ interface ValueTransformerInterface
      * @param  mixed $value               The value in the transformed representation
      * @throws UnexpectedTypeException    when the argument is not of the
      *                                    expected type
-     * @throws ValueTransformerException  when the transformation fails
+     * @throws DataTransformerException  when the transformation fails
      */
     function reverseTransform($value);
 }

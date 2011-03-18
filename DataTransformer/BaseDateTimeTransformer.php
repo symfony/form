@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Form\ValueTransformer;
+namespace Symfony\Component\Form\DataTransformer;
 
 use Symfony\Component\Form\Configurable;
 
-abstract class BaseDateTimeTransformer extends Configurable implements ValueTransformerInterface
+abstract class BaseDateTimeTransformer extends Configurable implements DataTransformerInterface
 {
     protected static $formats = array(
         \IntlDateFormatter::NONE,
