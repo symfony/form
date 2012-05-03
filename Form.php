@@ -504,12 +504,6 @@ class Form implements \IteratorAggregate, FormInterface
                 throw new UnexpectedTypeException($clientData, 'array');
             }
 
-            foreach ($this->children as $name => $child) {
-                if (!isset($clientData[$name])) {
-                    $clientData[$name] = null;
-                }
-            }
-
             foreach ($clientData as $name => $value) {
                 if ($this->has($name)) {
                     $this->children[$name]->bind($value);
