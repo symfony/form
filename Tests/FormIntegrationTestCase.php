@@ -31,10 +31,16 @@ abstract class FormIntegrationTestCase extends \PHPUnit_Framework_TestCase
 
         $this->factory = Forms::createFormFactoryBuilder()
             ->addExtensions($this->getExtensions())
+            ->addTypes($this->getTypes())
             ->getFormFactory();
     }
 
     protected function getExtensions()
+    {
+        return array();
+    }
+    
+    protected function getTypes()
     {
         return array();
     }
