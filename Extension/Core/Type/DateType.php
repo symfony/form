@@ -93,6 +93,11 @@ class DateType extends AbstractType
                 $monthOptions['placeholder'] = $options['placeholder']['month'];
                 $dayOptions['choices'] = $this->formatTimestamps($formatter, '/d+/', $this->listDays($options['days']));
                 $dayOptions['placeholder'] = $options['placeholder']['day'];
+            } elseif ('text' === $options['widget']) {
+                // Only pass a subset of the options to children
+                $yearOptions['attr']['placeholder'] = $options['placeholder']['year'];
+                $monthOptions['attr']['placeholder'] = $options['placeholder']['month'];
+                $dayOptions['attr']['placeholder'] = $options['placeholder']['day'];
             }
 
             // Append generic carry-along options
