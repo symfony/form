@@ -61,6 +61,10 @@ class FormBuilder extends FormConfigBuilder implements \IteratorAggregate, FormB
         if ($this->locked) {
             throw new BadMethodCallException('FormBuilder methods cannot be accessed anymore once the builder is turned into a FormConfigInterface instance.');
         }
+        
+        if (null === $type && isset($options['mapped']) && false === $options['mapped']) {
+            throw new BadMethodCallException('mapped false needs a type to work!');
+        }
 
         if ($child instanceof self) {
             $this->children[$child->getName()] = $child;
