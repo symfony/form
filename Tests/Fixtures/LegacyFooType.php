@@ -13,8 +13,13 @@ namespace Symfony\Component\Form\Tests\Fixtures;
 
 use Symfony\Component\Form\AbstractType;
 
-class FooType extends AbstractType
+class LegacyFooType extends AbstractType
 {
+    public function getName()
+    {
+        return 'foo';
+    }
+
     public function getParent()
     {
     }

@@ -14,7 +14,7 @@ namespace Symfony\Component\Form\Tests\Fixtures;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class FooTypeBazExtension extends AbstractTypeExtension
+class LegacyFooTypeBazExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,6 +23,6 @@ class FooTypeBazExtension extends AbstractTypeExtension
 
     public function getExtendedType()
     {
-        return __NAMESPACE__.'\FooType';
+        return 'foo';
     }
 }
