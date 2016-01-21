@@ -1172,7 +1172,9 @@ class Form implements \IteratorAggregate, FormInterface
     private function viewToNorm($value)
     {
         $transformers = $this->config->getViewTransformers();
-
+        if($value===null||$value==='') {
+            return null;
+        }
         if (!$transformers) {
             return '' === $value ? null : $value;
         }
