@@ -275,7 +275,7 @@ interface FormConfigBuilderInterface extends FormConfigInterface
      *                         In the second case, you need to call
      *                         {@link FormInterface::initialize()} manually.
      *
-     * @return self The configuration object.
+     * @return static The configuration object.
      */
     public function setAutoInitialize($initialize);
 
