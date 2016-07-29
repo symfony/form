@@ -75,6 +75,9 @@ class FormDataCollector extends DataCollector implements FormDataCollectorInterf
 
     /**
      * Does nothing. The data is collected during the form event listeners.
+     * @param Request $request
+     * @param Response $response
+     * @param \Exception $exception
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
