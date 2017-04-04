@@ -65,7 +65,7 @@ class FormTypeValidatorExtension extends BaseValidatorExtension
             'invalid_message' => 'This value is not valid.',
             'invalid_message_parameters' => array(),
             'allow_extra_fields' => false,
-            'extra_fields_message' => 'This form should not contain extra fields.',
+            'extra_fields_message' => 'This form should not contain extra fields: {{ extra_fields }}',
         ));
 
         $resolver->setNormalizer('constraints', $constraintsNormalizer);
