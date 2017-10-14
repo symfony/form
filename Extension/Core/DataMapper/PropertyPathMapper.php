@@ -49,12 +49,14 @@ class PropertyPathMapper implements DataMapperInterface
             throw new UnexpectedTypeException($data, 'object, array or empty');
         }
 
+        $propertyAccessor = $this->propertyAccessor;
+
         foreach ($forms as $form) {
             $propertyPath = $form->getPropertyPath();
             $config = $form->getConfig();
 
             if (!$empty && null !== $propertyPath && $config->getMapped()) {
-                $form->setData($this->propertyAccessor->getValue($data, $propertyPath));
+                $form->setData($propertyAccessor->getValue($data, $propertyPath));
             } else {
                 $form->setData($form->getConfig()->getData());
             }
@@ -74,6 +76,8 @@ class PropertyPathMapper implements DataMapperInterface
             throw new UnexpectedTypeException($data, 'object, array or empty');
         }
 
+        $propertyAccessor = $this->propertyAccessor;
+
         foreach ($forms as $form) {
             $propertyPath = $form->getPropertyPath();
             $config = $form->getConfig();
@@ -84,14 +88,14 @@ class PropertyPathMapper implements DataMapperInterface
                 $formData = $form->getData();
                 // If the field is of type DateTime and the data is the same skip the update to
                 // keep the original object hash
-                if ($formData instanceof \DateTime && $formData == $this->propertyAccessor->getValue($data, $propertyPath)) {
+                if ($formData instanceof \DateTime && $formData == $propertyAccessor->getValue($data, $propertyPath)) {
                     continue;
                 }
 
                 // If the data is identical to the value in $data, we are
                 // dealing with a reference
-                if (!is_object($data) || !$config->getByReference() || $formData !== $this->propertyAccessor->getValue($data, $propertyPath)) {
-                    $this->propertyAccessor->setValue($data, $propertyPath, $formData);
+                if (!is_object($data) || !$config->getByReference() || $formData !== $propertyAccessor->getValue($data, $propertyPath)) {
+                    $propertyAccessor->setValue($data, $propertyPath, $formData);
                 }
             }
         }
