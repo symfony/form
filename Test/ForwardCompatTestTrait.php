@@ -19,7 +19,7 @@ if ((new \ReflectionMethod(TestCase::class, 'tearDown'))->hasReturnType()) {
     /**
      * @internal
      */
-    trait TestCaseSetUpTearDownTrait
+    trait ForwardCompatTestTrait
     {
         private function doSetUp(): void
         {
@@ -43,7 +43,7 @@ if ((new \ReflectionMethod(TestCase::class, 'tearDown'))->hasReturnType()) {
     /**
      * @internal
      */
-    trait TestCaseSetUpTearDownTrait
+    trait ForwardCompatTestTrait
     {
         /**
          * @return void
