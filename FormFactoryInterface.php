@@ -23,7 +23,9 @@ interface FormFactoryInterface
      *
      * @see createBuilder()
      *
-     * @param mixed $data The initial data
+     * @param string $type    The type of the form
+     * @param mixed  $data    The initial data
+     * @param array  $options The options
      *
      * @return FormInterface The form named after the type
      *
@@ -36,7 +38,10 @@ interface FormFactoryInterface
      *
      * @see createNamedBuilder()
      *
-     * @param mixed $data The initial data
+     * @param string $name    The name of the form
+     * @param string $type    The type of the form
+     * @param mixed  $data    The initial data
+     * @param array  $options The options
      *
      * @return FormInterface The form
      *
@@ -52,6 +57,7 @@ interface FormFactoryInterface
      * @param string $class    The fully qualified class name
      * @param string $property The name of the property to guess for
      * @param mixed  $data     The initial data
+     * @param array  $options  The options
      *
      * @return FormInterface The form named after the property
      *
@@ -62,7 +68,9 @@ interface FormFactoryInterface
     /**
      * Returns a form builder.
      *
-     * @param mixed $data The initial data
+     * @param string $type    The type of the form
+     * @param mixed  $data    The initial data
+     * @param array  $options The options
      *
      * @return FormBuilderInterface The form builder
      *
@@ -73,7 +81,10 @@ interface FormFactoryInterface
     /**
      * Returns a form builder.
      *
-     * @param mixed $data The initial data
+     * @param string $name    The name of the form
+     * @param string $type    The type of the form
+     * @param mixed  $data    The initial data
+     * @param array  $options The options
      *
      * @return FormBuilderInterface The form builder
      *
@@ -90,6 +101,7 @@ interface FormFactoryInterface
      * @param string $class    The fully qualified class name
      * @param string $property The name of the property to guess for
      * @param mixed  $data     The initial data
+     * @param array  $options  The options
      *
      * @return FormBuilderInterface The form builder named after the property
      *
