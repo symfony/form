@@ -4,6 +4,7 @@ CHANGELOG
 8.1
 ---
 
+ * Add support for submitting forms with unchecked checkboxes in request handlers
  * Add `ResetFlowType` button in `NavigatorFlowType` that you can display with `with_reset` option
  * Allow injecting a `ViolationMapperInterface` into `FormTypeValidatorExtension`
  * Deprecate passing boolean as the second argument of `ValidatorExtension` and `FormTypeValidatorExtension`'s constructors; pass a `ViolationMapperInterface` instead
