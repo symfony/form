@@ -99,7 +99,7 @@ class FormErrorIterator implements \RecursiveIterator, \SeekableIterator, \Array
      *
      * @return T An error or an iterator containing nested errors
      */
-    public function current(): FormError|self
+    public function current(): FormError|self|bool
     {
         return current($this->errors);
     }
