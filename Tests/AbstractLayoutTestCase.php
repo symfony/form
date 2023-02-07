@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-abstract class AbstractLayoutTest extends FormIntegrationTestCase
+abstract class AbstractLayoutTestCase extends FormIntegrationTestCase
 {
     use VersionAwareTest;
 
