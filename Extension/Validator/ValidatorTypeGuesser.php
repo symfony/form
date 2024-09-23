@@ -155,7 +155,12 @@ class ValidatorTypeGuesser implements FormTypeGuesserInterface
                 return new TypeGuess(LocaleType::class, [], Guess::HIGH_CONFIDENCE);
 
             case Time::class:
-                return new TypeGuess(TimeType::class, ['input' => 'string'], Guess::HIGH_CONFIDENCE);
+                $options = ['input' => 'string'];
+                if (!$constraint->withSeconds) {
+                    $options['input_format'] = 'H:i';
+                }
+
+                return new TypeGuess(TimeType::class, $options, Guess::HIGH_CONFIDENCE);
 
             case Url::class:
                 return new TypeGuess(UrlType::class, [], Guess::HIGH_CONFIDENCE);
