@@ -12,6 +12,8 @@
 namespace Symfony\Component\Form\Tests\Extension\Core\EventListener;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\AbstractType;
@@ -43,9 +45,8 @@ class ResizeFormListenerTest extends TestCase
         return new FormBuilder($name, null, new EventDispatcher(), $this->factory);
     }
 
-    /**
-     * @group legacy
-     */
+    #[IgnoreDeprecations]
+    #[Group('legacy')]
     public function testPreSetDataResizesForm()
     {
         $this->builder->add($this->getBuilder('0'));
@@ -93,9 +94,8 @@ class ResizeFormListenerTest extends TestCase
         $this->assertSame('string', $form->get('2')->getData());
     }
 
-    /**
-     * @group legacy
-     */
+    #[IgnoreDeprecations]
+    #[Group('legacy')]
     public function testPreSetDataRequiresArrayOrTraversable()
     {
         $this->expectException(UnexpectedTypeException::class);
@@ -119,9 +119,8 @@ class ResizeFormListenerTest extends TestCase
         $listener->postSetData($event);
     }
 
-    /**
-     * @group legacy
-     */
+    #[IgnoreDeprecations]
+    #[Group('legacy')]
     public function testPreSetDataDealsWithNullData()
     {
         $data = null;
