@@ -213,7 +213,7 @@ class ResizeFormListener implements EventSubscriberInterface
             foreach ($formReindex as $index => $child) {
                 $form->add($index, $this->type, array_replace([
                     'property_path' => '['.$index.']',
-                ], $this->options));
+                ], $this->options, ['data' => $child->getData()]));
                 $data[$index] = $child->getData();
             }
         }
