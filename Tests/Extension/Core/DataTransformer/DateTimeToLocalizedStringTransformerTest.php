@@ -238,7 +238,7 @@ class DateTimeToLocalizedStringTransformerTest extends BaseDateTimeTransformerTe
     {
         if (version_compare(Intl::getIcuVersion(), '71.1', '>')) {
             $this->markTestSkipped('ICU version 71.1 or lower is required.');
-        };
+        }
 
         \Locale::setDefault('en_US');
 
