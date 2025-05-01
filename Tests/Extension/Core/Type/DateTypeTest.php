@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -113,6 +114,27 @@ class DateTypeTest extends BaseTypeTestCase
 
         $this->assertEquals(new \DateTime('2010-06-02 UTC'), $form->getData());
         $this->assertEquals('02.06.2010', $form->getViewData());
+    }
+
+    public function testSubmitFromSingleTextDatePoint()
+    {
+        if (!class_exists(DatePoint::class)) {
+            self::markTestSkipped('The DatePoint class is not available.');
+        }
+
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'html5' => false,
+            'model_timezone' => 'UTC',
+            'view_timezone' => 'UTC',
+            'widget' => 'single_text',
+            'input' => 'date_point',
+        ]);
+
+        $form->submit('2010-06-02');
+
+        $this->assertInstanceOf(DatePoint::class, $form->getData());
+        $this->assertEquals(DatePoint::createFromMutable(new \DateTime('2010-06-02 UTC')), $form->getData());
+        $this->assertEquals('2010-06-02', $form->getViewData());
     }
 
     public function testSubmitFromSingleTextDateTimeImmutable()

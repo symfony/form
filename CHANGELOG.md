@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+7.4
+---
+
+ * Add `input=date_point` to `DateTimeType`, `DateType` and `TimeType`
+
 7.3
 ---
 
