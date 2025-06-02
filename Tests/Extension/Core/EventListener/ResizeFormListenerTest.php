@@ -310,7 +310,7 @@ class ResizeFormListenerTest extends TestCase
         $this->assertArrayNotHasKey(2, $event->getData());
     }
 
-    public function testOnSubmitDealsWithArrayBackedIteratorAggregate()
+    public function testOnSubmitDealsWithDoctrineCollection()
     {
         $this->builder->add($this->getBuilder('1'));
 
@@ -321,6 +321,19 @@ class ResizeFormListenerTest extends TestCase
 
         $this->assertArrayNotHasKey(0, $event->getData());
         $this->assertArrayNotHasKey(2, $event->getData());
+    }
+
+    public function testKeepAsListWorksWithTraversableArrayAccess()
+    {
+        $this->builder->add($this->getBuilder('1'));
+
+        $data = new \ArrayIterator([0 => 'first', 1 => 'second', 2 => 'third']);
+        $event = new FormEvent($this->builder->getForm(), $data);
+        $listener = new ResizeFormListener(TextType::class, keepAsList: true);
+        $listener->onSubmit($event);
+
+        $this->assertCount(1, $event->getData());
+        $this->assertArrayHasKey(0, $event->getData());
     }
 
     public function testOnSubmitDeleteEmptyNotCompoundEntriesIfAllowDelete()

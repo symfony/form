@@ -199,7 +199,13 @@ class ResizeFormListener implements EventSubscriberInterface
         }
 
         if ($this->keepAsList) {
-            $formReindex = [];
+            $formReindex = $dataKeys = [];
+            foreach ($data as $key => $value) {
+                $dataKeys[] = $key;
+            }
+            foreach ($dataKeys as $key) {
+                unset($data[$key]);
+            }
             foreach ($form as $name => $child) {
                 $formReindex[] = $child;
                 $form->remove($name);
@@ -208,8 +214,8 @@ class ResizeFormListener implements EventSubscriberInterface
                 $form->add($index, $this->type, array_replace([
                     'property_path' => '['.$index.']',
                 ], $this->options));
+                $data[$index] = $child->getData();
             }
-            $data = array_values($data);
         }
 
         $event->setData($data);
