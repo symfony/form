@@ -43,14 +43,14 @@ class NumberToLocalizedStringTransformer implements DataTransformerInterface
     /**
      * Transforms a number type into localized number.
      *
-     * @param int|float|null $value Number value
+     * @param int|float|string|null $value Number value
      *
      * @throws TransformationFailedException if the given value is not numeric
      *                                       or if the value cannot be transformed
      */
     public function transform(mixed $value): string
     {
-        if (null === $value) {
+        if (null === $value || '' === $value) {
             return '';
         }
 

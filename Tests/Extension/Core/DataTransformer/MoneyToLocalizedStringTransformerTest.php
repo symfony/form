@@ -54,6 +54,13 @@ class MoneyToLocalizedStringTransformerTest extends TestCase
         $transformer->transform('abcd');
     }
 
+    public function testTransformEmptyString()
+    {
+        $transformer = new MoneyToLocalizedStringTransformer(null, null, null, 100);
+
+        $this->assertSame('', $transformer->transform(''));
+    }
+
     public function testTransformEmpty()
     {
         $transformer = new MoneyToLocalizedStringTransformer();
