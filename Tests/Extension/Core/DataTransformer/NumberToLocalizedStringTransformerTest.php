@@ -49,6 +49,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     {
         return [
             [null, '', 'de_AT'],
+            ['', '', 'de_AT'],
             [1, '1', 'de_AT'],
             [1.5, '1,5', 'de_AT'],
             [1234.5, '1234,5', 'de_AT'],
