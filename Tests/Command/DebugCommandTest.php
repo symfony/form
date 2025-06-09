@@ -194,7 +194,11 @@ TXT
         $formRegistry = new FormRegistry([], new ResolvedFormTypeFactory());
         $command = new DebugCommand($formRegistry);
         $application = new Application();
-        $application->add($command);
+        if (method_exists($application, 'addCommand')) {
+            $application->addCommand($command);
+        } else {
+            $application->add($command);
+        }
         $tester = new CommandCompletionTester($application->get('debug:form'));
         $this->assertSame($expectedSuggestions, $tester->complete($input));
     }
@@ -278,7 +282,11 @@ TXT
         $formRegistry = new FormRegistry([], new ResolvedFormTypeFactory());
         $command = new DebugCommand($formRegistry, $namespaces, $types);
         $application = new Application();
-        $application->add($command);
+        if (method_exists($application, 'addCommand')) {
+            $application->addCommand($command);
+        } else {
+            $application->add($command);
+        }
 
         return new CommandTester($application->find('debug:form'));
     }
