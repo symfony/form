@@ -6,6 +6,7 @@ CHANGELOG
 
  * Change default value of `default_protocol` option in `UrlType` from `'http'` to `null`
  * Remove the `VersionAwareTest` trait, use feature detection instead
+ * Remove deprecated `ResizeFormListener::preSetData()` method, use `postSetData()` instead
 
 7.4
 ---
