@@ -80,10 +80,8 @@ class ResizeFormListener implements EventSubscriberInterface
 
     /**
      * Remove FormEvent type hint in 8.0.
-     *
-     * @final since Symfony 7.2
      */
-    public function postSetData(FormEvent|PostSetDataEvent $event): void
+    final public function postSetData(FormEvent|PostSetDataEvent $event): void
     {
         if (__CLASS__ !== static::class) {
             if ($this->overridden) {
