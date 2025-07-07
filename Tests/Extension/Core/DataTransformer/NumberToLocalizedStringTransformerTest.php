@@ -729,6 +729,10 @@ class NumberToLocalizedStringTransformerTest extends TestCase
 
     public function testReverseTransformDoesNotCauseIntegerPrecisionLoss()
     {
+        if (\PHP_INT_SIZE === 4) {
+            $this->markTestSkipped('Test is not applicable on 32-bit systems where no integer loses precision when cast to float.');
+        }
+
         $transformer = new NumberToLocalizedStringTransformer();
 
         // Test a large integer that causes actual precision loss when cast to float
@@ -741,6 +745,10 @@ class NumberToLocalizedStringTransformerTest extends TestCase
 
     public function testRoundMethodKeepsIntegersAsIntegers()
     {
+        if (\PHP_INT_SIZE === 4) {
+            $this->markTestSkipped('Test is not applicable on 32-bit systems where no integer loses precision when cast to float.');
+        }
+
         $transformer = new NumberToLocalizedStringTransformer(2); // scale=2 triggers rounding
 
         // Use reflection to test the private round() method directly
