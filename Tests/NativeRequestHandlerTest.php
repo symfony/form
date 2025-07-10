@@ -168,8 +168,8 @@ class NativeRequestHandlerTest extends AbstractRequestHandlerTestCase
         $form = $this->createForm('param1', 'POST');
 
         $this->setRequestData('GET', [
-                'param1' => 'DATA',
-            ]);
+            'param1' => 'DATA',
+        ]);
 
         $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] = 'PUT';
 

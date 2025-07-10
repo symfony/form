@@ -232,7 +232,7 @@ class ValidatorTypeGuesser implements FormTypeGuesserInterface
         switch ($constraint::class) {
             case Length::class:
                 if (is_numeric($constraint->min)) {
-                    return new ValueGuess(sprintf('.{%s,}', (string) $constraint->min), Guess::LOW_CONFIDENCE);
+                    return new ValueGuess(\sprintf('.{%s,}', (string) $constraint->min), Guess::LOW_CONFIDENCE);
                 }
                 break;
 
@@ -246,7 +246,7 @@ class ValidatorTypeGuesser implements FormTypeGuesserInterface
 
             case Range::class:
                 if (is_numeric($constraint->min)) {
-                    return new ValueGuess(sprintf('.{%s,}', \strlen((string) $constraint->min)), Guess::LOW_CONFIDENCE);
+                    return new ValueGuess(\sprintf('.{%s,}', \strlen((string) $constraint->min)), Guess::LOW_CONFIDENCE);
                 }
                 break;
 

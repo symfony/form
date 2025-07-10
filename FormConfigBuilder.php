@@ -75,7 +75,7 @@ class FormConfigBuilder implements FormConfigBuilderInterface
         self::validateName($name);
 
         if (null !== $dataClass && !class_exists($dataClass) && !interface_exists($dataClass, false)) {
-            throw new InvalidArgumentException(sprintf('Class "%s" not found. Is the "data_class" form option set correctly?', $dataClass));
+            throw new InvalidArgumentException(\sprintf('Class "%s" not found. Is the "data_class" form option set correctly?', $dataClass));
         }
 
         $this->name = (string) $name;
@@ -636,7 +636,7 @@ class FormConfigBuilder implements FormConfigBuilderInterface
     final public static function validateName(?string $name): void
     {
         if (!self::isValidName($name)) {
-            throw new InvalidArgumentException(sprintf('The name "%s" contains illegal characters. Names should start with a letter, digit or underscore and only contain letters, digits, numbers, underscores ("_"), hyphens ("-") and colons (":").', $name));
+            throw new InvalidArgumentException(\sprintf('The name "%s" contains illegal characters. Names should start with a letter, digit or underscore and only contain letters, digits, numbers, underscores ("_"), hyphens ("-") and colons (":").', $name));
         }
     }
 

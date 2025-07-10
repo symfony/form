@@ -47,7 +47,7 @@ class ChoiceToValueTransformer implements DataTransformerInterface
                 return null;
             }
 
-            throw new TransformationFailedException(sprintf('The choice "%s" does not exist or is not unique.', $value));
+            throw new TransformationFailedException(\sprintf('The choice "%s" does not exist or is not unique.', $value));
         }
 
         return current($choices);
