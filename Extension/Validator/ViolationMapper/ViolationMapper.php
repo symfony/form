@@ -248,7 +248,7 @@ class ViolationMapper implements ViolationMapperInterface
 
             // Test mapping rules as long as we have any
             foreach ($rules as $key => $rule) {
-                /* @var MappingRule $rule */
+                /** @var MappingRule $rule */
 
                 // Mapping rule matches completely, terminate.
                 if (null !== ($form = $rule->match($chunk))) {
@@ -312,7 +312,7 @@ class ViolationMapper implements ViolationMapperInterface
                 // Cut the piece out of the property path and proceed
                 $propertyPathBuilder->remove($i);
             } else {
-                /* @var \Symfony\Component\PropertyAccess\PropertyPathInterface $propertyPath */
+                /** @var \Symfony\Component\PropertyAccess\PropertyPathInterface $propertyPath */
                 $propertyPath = $scope->getPropertyPath();
 
                 if (null === $propertyPath) {
