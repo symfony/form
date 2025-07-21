@@ -52,11 +52,7 @@ class ResizeFormListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     *
-     * @final since Symfony 7.2
-     */
-    public function postSetData(PostSetDataEvent $event): void
+    final public function postSetData(PostSetDataEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData() ?? [];
