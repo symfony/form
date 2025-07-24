@@ -754,7 +754,6 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         // Use reflection to test the private round() method directly
         $reflection = new \ReflectionClass($transformer);
         $roundMethod = $reflection->getMethod('round');
-        $roundMethod->setAccessible(true);
 
         $int = \PHP_INT_MAX - 1;
         $result = $roundMethod->invoke($transformer, $int);
