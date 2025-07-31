@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -733,9 +734,7 @@ class DateTimeTypeTest extends BaseTypeTestCase
         $this->assertSame($expectedData, $form->getData());
     }
 
-    /**
-     * @dataProvider provideEmptyData
-     */
+    #[DataProvider('provideEmptyData')]
     public function testSubmitNullUsesDateEmptyData($widget, $emptyData, $expectedData)
     {
         $form = $this->factory->create(static::TESTED_TYPE, null, [

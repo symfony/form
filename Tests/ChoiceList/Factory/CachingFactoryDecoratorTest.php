@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\ChoiceList\Factory;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
@@ -71,9 +72,7 @@ class CachingFactoryDecoratorTest extends TestCase
         $this->assertEquals(new ArrayChoiceList(['A' => 'a']), $list2);
     }
 
-    /**
-     * @dataProvider provideSameChoices
-     */
+    #[DataProvider('provideSameChoices')]
     public function testCreateFromChoicesSameChoices($choice1, $choice2)
     {
         $list1 = $this->factory->createListFromChoices([$choice1]);
@@ -84,9 +83,7 @@ class CachingFactoryDecoratorTest extends TestCase
         $this->assertEquals(new ArrayChoiceList([$choice2]), $list2);
     }
 
-    /**
-     * @dataProvider provideDistinguishedChoices
-     */
+    #[DataProvider('provideDistinguishedChoices')]
     public function testCreateFromChoicesDifferentChoices($choice1, $choice2)
     {
         $list1 = $this->factory->createListFromChoices([$choice1]);
