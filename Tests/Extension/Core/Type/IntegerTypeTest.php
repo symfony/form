@@ -30,7 +30,9 @@ class IntegerTypeTest extends BaseTypeTestCase
 
     protected function tearDown(): void
     {
-        \Locale::setDefault($this->previousLocale);
+        if (isset($this->defaultLocale)) {
+            \Locale::setDefault($this->defaultLocale);
+        }
     }
 
     #[RequiresPhpExtension('intl')]

@@ -52,7 +52,9 @@ class DateTimeToLocalizedStringTransformerTest extends BaseDateTimeTransformerTe
 
     protected function tearDown(): void
     {
-        \Locale::setDefault($this->defaultLocale);
+        if (isset($this->defaultLocale)) {
+            \Locale::setDefault($this->defaultLocale);
+        }
 
         if (\extension_loaded('intl')) {
             ini_set('intl.use_exceptions', $this->initialTestCaseUseException);
