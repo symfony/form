@@ -22,6 +22,7 @@ use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\ChoiceList\Loader\FilterChoiceLoaderDecorator;
 use Symfony\Component\Form\ChoiceList\View\ChoiceListView;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Tests\ChoiceList\ChoiceListAssertionTrait;
 use Symfony\Component\Form\Tests\Fixtures\ArrayChoiceLoader;
 
 /**
@@ -29,6 +30,8 @@ use Symfony\Component\Form\Tests\Fixtures\ArrayChoiceLoader;
  */
 class CachingFactoryDecoratorTest extends TestCase
 {
+    use ChoiceListAssertionTrait;
+
     private CachingFactoryDecorator $factory;
 
     protected function setUp(): void
@@ -42,8 +45,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices([]);
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList([]), $list1);
-        $this->assertEquals(new ArrayChoiceList([]), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList([]), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList([]), $list2);
     }
 
     public function testCreateFromChoicesComparesTraversableChoicesAsArray()
@@ -56,8 +59,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices($choices2);
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList(['A' => 'a']), $list1);
-        $this->assertEquals(new ArrayChoiceList(['A' => 'a']), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList(['A' => 'a']), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList(['A' => 'a']), $list2);
     }
 
     public function testCreateFromChoicesGroupedChoices()
@@ -68,8 +71,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices($choices2);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList(['key' => ['A' => 'a']]), $list1);
-        $this->assertEquals(new ArrayChoiceList(['A' => 'a']), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList(['key' => ['A' => 'a']]), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList(['A' => 'a']), $list2);
     }
 
     #[DataProvider('provideSameChoices')]
@@ -79,8 +82,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices([$choice2]);
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList([$choice1]), $list1);
-        $this->assertEquals(new ArrayChoiceList([$choice2]), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList([$choice1]), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList([$choice2]), $list2);
     }
 
     #[DataProvider('provideDistinguishedChoices')]
@@ -90,8 +93,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices([$choice2]);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList([$choice1]), $list1);
-        $this->assertEquals(new ArrayChoiceList([$choice2]), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList([$choice1]), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList([$choice2]), $list2);
     }
 
     public function testCreateFromChoicesSameValueClosure()
@@ -103,8 +106,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices($choices, $closure);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList($choices, $closure), $list1);
-        $this->assertEquals(new ArrayChoiceList($choices, $closure), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList($choices, $closure), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList($choices, $closure), $list2);
     }
 
     public function testCreateFromChoicesSameValueClosureUseCache()
@@ -117,8 +120,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices($choices, ChoiceList::value($formType, function () {}));
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList($choices, $valueCallback), $list1);
-        $this->assertEquals(new ArrayChoiceList($choices, function () {}), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList($choices, $valueCallback), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList($choices, function () {}), $list2);
     }
 
     public function testCreateFromChoicesDifferentValueClosure()
@@ -130,8 +133,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromChoices($choices, $closure2);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new ArrayChoiceList($choices, $closure1), $list1);
-        $this->assertEquals(new ArrayChoiceList($choices, $closure2), $list2);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList($choices, $closure1), $list1);
+        self::assertEqualsArrayChoiceList(new ArrayChoiceList($choices, $closure2), $list2);
     }
 
     public function testCreateFromChoicesSameFilterClosure()
@@ -143,8 +146,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $lazyChoiceList = new LazyChoiceList(new FilterChoiceLoaderDecorator(new CallbackChoiceLoader(static fn () => $choices), $filter), null);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals($lazyChoiceList, $list1);
-        $this->assertEquals($lazyChoiceList, $list2);
+        self::assertEqualsLazyChoiceList($lazyChoiceList, $list1);
+        self::assertEqualsLazyChoiceList($lazyChoiceList, $list2);
     }
 
     public function testCreateFromChoicesSameFilterClosureUseCache()
@@ -157,8 +160,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $lazyChoiceList = new LazyChoiceList(new FilterChoiceLoaderDecorator(new CallbackChoiceLoader(static fn () => $choices), function () {}), null);
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals($lazyChoiceList, $list1);
-        $this->assertEquals($lazyChoiceList, $list2);
+        self::assertEqualsLazyChoiceList($lazyChoiceList, $list1);
+        self::assertEqualsLazyChoiceList($lazyChoiceList, $list2);
     }
 
     public function testCreateFromChoicesDifferentFilterClosure()
@@ -171,8 +174,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $lazyChoiceList = new LazyChoiceList(new FilterChoiceLoaderDecorator(new CallbackChoiceLoader(static fn () => $choices), function () {}), null);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals($lazyChoiceList, $list1);
-        $this->assertEquals($lazyChoiceList, $list2);
+        self::assertEqualsLazyChoiceList($lazyChoiceList, $list1);
+        self::assertEqualsLazyChoiceList($lazyChoiceList, $list2);
     }
 
     public function testCreateFromLoaderSameLoader()
@@ -182,8 +185,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader($loader);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList($loader), $list1);
-        $this->assertEquals(new LazyChoiceList($loader), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList($loader), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList($loader), $list2);
     }
 
     public function testCreateFromLoaderSameLoaderUseCache()
@@ -193,8 +196,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader(ChoiceList::loader($type, new ArrayChoiceLoader()));
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList(new ArrayChoiceLoader(), null), $list1);
-        $this->assertEquals(new LazyChoiceList(new ArrayChoiceLoader(), null), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new ArrayChoiceLoader(), null), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new ArrayChoiceLoader(), null), $list2);
     }
 
     public function testCreateFromLoaderDifferentLoader()
@@ -210,8 +213,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader($loader, $closure);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList($loader, $closure), $list1);
-        $this->assertEquals(new LazyChoiceList($loader, $closure), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList($loader, $closure), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList($loader, $closure), $list2);
     }
 
     public function testCreateFromLoaderSameValueClosureUseCache()
@@ -223,8 +226,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader(ChoiceList::loader($type, new ArrayChoiceLoader()), ChoiceList::value($type, function () {}));
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList($loader, $closure), $list1);
-        $this->assertEquals(new LazyChoiceList(new ArrayChoiceLoader(), function () {}), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList($loader, $closure), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new ArrayChoiceLoader(), function () {}), $list2);
     }
 
     public function testCreateFromLoaderDifferentValueClosure()
@@ -246,8 +249,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader(ChoiceList::loader($type, new ArrayChoiceLoader()), null, $closure);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList(new FilterChoiceLoaderDecorator($loader, $closure)), $list1);
-        $this->assertEquals(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), $closure)), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new FilterChoiceLoaderDecorator($loader, $closure)), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), $closure)), $list2);
     }
 
     public function testCreateFromLoaderSameFilterClosureUseCache()
@@ -258,8 +261,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader(ChoiceList::loader($type, new ArrayChoiceLoader()), null, $choiceFilter);
 
         $this->assertSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), function () {})), $list1);
-        $this->assertEquals(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), function () {})), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), function () {})), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), function () {})), $list2);
     }
 
     public function testCreateFromLoaderDifferentFilterClosure()
@@ -271,8 +274,8 @@ class CachingFactoryDecoratorTest extends TestCase
         $list2 = $this->factory->createListFromLoader(ChoiceList::loader($type, new ArrayChoiceLoader()), null, $closure2);
 
         $this->assertNotSame($list1, $list2);
-        $this->assertEquals(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), $closure1), null), $list1);
-        $this->assertEquals(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), $closure2), null), $list2);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), $closure1), null), $list1);
+        self::assertEqualsLazyChoiceList(new LazyChoiceList(new FilterChoiceLoaderDecorator(new ArrayChoiceLoader(), $closure2), null), $list2);
     }
 
     public function testCreateViewSamePreferredChoices()
