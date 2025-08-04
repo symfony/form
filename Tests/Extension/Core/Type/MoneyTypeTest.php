@@ -23,7 +23,7 @@ class MoneyTypeTest extends BaseTypeTestCase
     {
         // we test against different locales, so we need the full
         // implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         parent::setUp();
 
@@ -76,7 +76,7 @@ class MoneyTypeTest extends BaseTypeTestCase
 
     public function testMoneyPatternWithoutCurrency()
     {
-        $view = $this->factory->create(static::TESTED_TYPE, null, ['currency' => false])
+        $view = $this->factory->create(static::TESTED_TYPE, null, ['currency' => null])
             ->createView();
 
         $this->assertSame('{{ widget }}', $view->vars['money_pattern']);
@@ -113,7 +113,7 @@ class MoneyTypeTest extends BaseTypeTestCase
     public function testHtml5EnablesSpecificFormatting()
     {
         // Since we test against "de_CH", we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_CH');
 
