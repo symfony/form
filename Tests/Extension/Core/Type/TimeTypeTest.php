@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
@@ -930,9 +931,7 @@ class TimeTypeTest extends BaseTypeTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideCompoundWidgets
-     */
+    #[DataProvider('provideCompoundWidgets')]
     public function testHourErrorsBubbleUp($widget)
     {
         $error = new FormError('Invalid!');
@@ -945,9 +944,7 @@ class TimeTypeTest extends BaseTypeTestCase
         $this->assertSame([$error], iterator_to_array($form->getErrors()));
     }
 
-    /**
-     * @dataProvider provideCompoundWidgets
-     */
+    #[DataProvider('provideCompoundWidgets')]
     public function testMinuteErrorsBubbleUp($widget)
     {
         $error = new FormError('Invalid!');
@@ -960,9 +957,7 @@ class TimeTypeTest extends BaseTypeTestCase
         $this->assertSame([$error], iterator_to_array($form->getErrors()));
     }
 
-    /**
-     * @dataProvider provideCompoundWidgets
-     */
+    #[DataProvider('provideCompoundWidgets')]
     public function testSecondErrorsBubbleUp($widget)
     {
         $error = new FormError('Invalid!');
@@ -1151,9 +1146,7 @@ class TimeTypeTest extends BaseTypeTestCase
         ], $form->getViewData());
     }
 
-    /**
-     * @dataProvider provideEmptyData
-     */
+    #[DataProvider('provideEmptyData')]
     public function testSubmitNullUsesDateEmptyData($widget, $emptyData, $expectedData)
     {
         $form = $this->factory->create(static::TESTED_TYPE, null, [

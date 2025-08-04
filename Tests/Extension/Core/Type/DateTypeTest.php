@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Exception\LogicException;
@@ -414,9 +415,7 @@ class DateTypeTest extends BaseTypeTestCase
         $this->assertEquals('06*2010*02', $form->getViewData());
     }
 
-    /**
-     * @dataProvider provideDateFormats
-     */
+    #[DataProvider('provideDateFormats')]
     public function testDatePatternWithFormatOption($format, $pattern)
     {
         $view = $this->factory->create(static::TESTED_TYPE, null, [
@@ -973,9 +972,7 @@ class DateTypeTest extends BaseTypeTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideCompoundWidgets
-     */
+    #[DataProvider('provideCompoundWidgets')]
     public function testYearErrorsBubbleUp($widget)
     {
         $error = new FormError('Invalid!');
@@ -988,9 +985,7 @@ class DateTypeTest extends BaseTypeTestCase
         $this->assertSame([$error], iterator_to_array($form->getErrors()));
     }
 
-    /**
-     * @dataProvider provideCompoundWidgets
-     */
+    #[DataProvider('provideCompoundWidgets')]
     public function testMonthErrorsBubbleUp($widget)
     {
         $error = new FormError('Invalid!');
@@ -1003,9 +998,7 @@ class DateTypeTest extends BaseTypeTestCase
         $this->assertSame([$error], iterator_to_array($form->getErrors()));
     }
 
-    /**
-     * @dataProvider provideCompoundWidgets
-     */
+    #[DataProvider('provideCompoundWidgets')]
     public function testDayErrorsBubbleUp($widget)
     {
         $error = new FormError('Invalid!');
@@ -1104,9 +1097,7 @@ class DateTypeTest extends BaseTypeTestCase
         $this->assertSame($expectedData, $form->getData());
     }
 
-    /**
-     * @dataProvider provideEmptyData
-     */
+    #[DataProvider('provideEmptyData')]
     public function testSubmitNullUsesDateEmptyData($widget, $emptyData, $expectedData)
     {
         $form = $this->factory->create(static::TESTED_TYPE, null, [

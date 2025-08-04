@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\DataTransformer;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\DataTransformer\PercentToLocalizedStringTransformer;
@@ -194,9 +196,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider reverseTransformWithRoundingProvider
-     */
+    #[DataProvider('reverseTransformWithRoundingProvider')]
     public function testReverseTransformWithRounding($type, $scale, $input, $output, $roundingMode)
     {
         $transformer = new PercentToLocalizedStringTransformer($scale, $type, $roundingMode);
@@ -367,9 +367,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
         $transformer->reverseTransform('12foo3');
     }
 
-    /**
-     * @requires extension mbstring
-     */
+    #[RequiresPhpExtension('mbstring')]
     public function testReverseTransformDisallowsCenteredExtraCharactersMultibyte()
     {
         $this->expectException(TransformationFailedException::class);
@@ -393,9 +391,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
         $transformer->reverseTransform('123foo');
     }
 
-    /**
-     * @requires extension mbstring
-     */
+    #[RequiresPhpExtension('mbstring')]
     public function testReverseTransformDisallowsTrailingExtraCharactersMultibyte()
     {
         $this->expectException(TransformationFailedException::class);
@@ -490,9 +486,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
         $this->assertEquals(0.1234, $transformer->reverseTransform('12.34'));
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testReverseTransformWrapsIntlErrorsWithErrorLevel()
     {
         $errorLevel = ini_set('intl.error_level', \E_WARNING);
@@ -506,9 +500,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
         }
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testReverseTransformWrapsIntlErrorsWithExceptions()
     {
         $initialUseExceptions = ini_set('intl.use_exceptions', 1);
@@ -522,9 +514,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
         }
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testReverseTransformWrapsIntlErrorsWithExceptionsAndErrorLevel()
     {
         $initialUseExceptions = ini_set('intl.use_exceptions', 1);

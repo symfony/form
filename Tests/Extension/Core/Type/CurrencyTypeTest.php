@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Intl\Util\IntlTestHelper;
@@ -36,9 +37,7 @@ class CurrencyTypeTest extends BaseTypeTestCase
         $this->assertContainsEquals(new ChoiceView('SIT', 'SIT', 'Slovenian Tolar'), $choices);
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testChoiceTranslationLocaleOption()
     {
         $choices = $this->factory

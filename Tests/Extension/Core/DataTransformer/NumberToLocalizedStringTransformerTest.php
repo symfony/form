@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\DataTransformer;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStringTransformer;
@@ -59,9 +61,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTransformations
-     */
+    #[DataProvider('provideTransformations')]
     public function testTransform($from, $to, $locale)
     {
         // Since we test against other locales, we need the full implementation
@@ -85,9 +85,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideTransformationsWithGrouping
-     */
+    #[DataProvider('provideTransformationsWithGrouping')]
     public function testTransformWithGrouping($from, $to, $locale)
     {
         // Since we test against other locales, we need the full implementation
@@ -202,9 +200,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider transformWithRoundingProvider
-     */
+    #[DataProvider('transformWithRoundingProvider')]
     public function testTransformWithRounding($scale, $input, $output, $roundingMode)
     {
         // Since we test against "de_AT", we need the full implementation
@@ -229,9 +225,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->assertEquals('1234,547', $transformer->transform(1234.547));
     }
 
-    /**
-     * @dataProvider provideTransformations
-     */
+    #[DataProvider('provideTransformations')]
     public function testReverseTransform($to, $from, $locale)
     {
         // Since we test against other locales, we need the full implementation
@@ -244,9 +238,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->assertEquals($to, $transformer->reverseTransform($from));
     }
 
-    /**
-     * @dataProvider provideTransformationsWithGrouping
-     */
+    #[DataProvider('provideTransformationsWithGrouping')]
     public function testReverseTransformWithGrouping($to, $from, $locale)
     {
         // Since we test against other locales, we need the full implementation
@@ -379,9 +371,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider reverseTransformWithRoundingProvider
-     */
+    #[DataProvider('reverseTransformWithRoundingProvider')]
     public function testReverseTransformWithRounding($scale, $input, $output, $roundingMode)
     {
         $transformer = new NumberToLocalizedStringTransformer($scale, null, $roundingMode);
@@ -521,10 +511,9 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     }
 
     /**
-     * @dataProvider nanRepresentationProvider
-     *
      * @see https://github.com/symfony/symfony/issues/3161
      */
+    #[DataProvider('nanRepresentationProvider')]
     public function testReverseTransformDisallowsNaN($nan)
     {
         $this->expectException(TransformationFailedException::class);
@@ -648,9 +637,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->assertSame(1.0, $transformer->reverseTransform('1'));
     }
 
-    /**
-     * @dataProvider eNotationProvider
-     */
+    #[DataProvider('eNotationProvider')]
     public function testReverseTransformENotation($output, $input)
     {
         IntlTestHelper::requireFullIntl($this);
@@ -662,9 +649,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->assertSame($output, $transformer->reverseTransform($input));
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testReverseTransformWrapsIntlErrorsWithErrorLevel()
     {
         $errorLevel = ini_set('intl.error_level', \E_WARNING);
@@ -678,9 +663,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         }
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testReverseTransformWrapsIntlErrorsWithExceptions()
     {
         $initialUseExceptions = ini_set('intl.use_exceptions', 1);
@@ -694,9 +677,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         }
     }
 
-    /**
-     * @requires extension intl
-     */
+    #[RequiresPhpExtension('intl')]
     public function testReverseTransformWrapsIntlErrorsWithExceptionsAndErrorLevel()
     {
         $initialUseExceptions = ini_set('intl.use_exceptions', 1);
