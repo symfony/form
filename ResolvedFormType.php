@@ -117,7 +117,6 @@ class ResolvedFormType implements ResolvedFormTypeInterface
 
         $this->innerType->finishView($view, $form, $options);
 
-        /** @var FormTypeExtensionInterface $extension */
         foreach ($this->typeExtensions as $extension) {
             $extension->finishView($view, $form, $options);
         }
