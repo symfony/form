@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRendererInterface;
 use Symfony\Component\Form\Util\InheritDataAwareIterator;
 use Symfony\Component\PropertyAccess\PropertyPathBuilder;
+use Symfony\Component\PropertyAccess\PropertyPathInterface;
 use Symfony\Component\PropertyAccess\PropertyPathIterator;
 use Symfony\Component\PropertyAccess\PropertyPathIteratorInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -312,7 +313,7 @@ class ViolationMapper implements ViolationMapperInterface
                 // Cut the piece out of the property path and proceed
                 $propertyPathBuilder->remove($i);
             } else {
-                /** @var \Symfony\Component\PropertyAccess\PropertyPathInterface $propertyPath */
+                /** @var PropertyPathInterface $propertyPath */
                 $propertyPath = $scope->getPropertyPath();
 
                 if (null === $propertyPath) {
