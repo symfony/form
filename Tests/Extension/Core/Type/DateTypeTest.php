@@ -94,7 +94,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSubmitFromSingleTextDateTime()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         if (\in_array(Intl::getIcuVersion(), ['71.1', '72.1'], true)) {
             $this->markTestSkipped('Skipping test due to a bug in ICU 71.1/72.1.');
@@ -141,7 +141,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSubmitFromSingleTextDateTimeImmutable()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         if (\in_array(Intl::getIcuVersion(), ['71.1', '72.1'], true)) {
             $this->markTestSkipped('Skipping test due to a bug in ICU 71.1/72.1.');
@@ -168,7 +168,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSubmitFromSingleTextString()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         if (\in_array(Intl::getIcuVersion(), ['71.1', '72.1'], true)) {
             $this->markTestSkipped('Skipping test due to a bug in ICU 71.1/72.1.');
@@ -194,7 +194,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSubmitFromSingleTextTimestamp()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         if (\in_array(Intl::getIcuVersion(), ['71.1', '72.1'], true)) {
             $this->markTestSkipped('Skipping test due to a bug in ICU 71.1/72.1.');
@@ -222,7 +222,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSubmitFromSingleTextRaw()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         if (\in_array(Intl::getIcuVersion(), ['71.1', '72.1'], true)) {
             $this->markTestSkipped('Skipping test due to a bug in ICU 71.1/72.1.');
@@ -254,7 +254,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testArrayDateWithReferenceDoesUseReferenceTimeOnZero()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_DE');
 
@@ -525,7 +525,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSetDataWithNegativeTimezoneOffsetStringInput()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_DE');
 
@@ -548,7 +548,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testSetDataWithNegativeTimezoneOffsetDateTimeInput()
     {
         // we test against "de_DE", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_DE');
 
@@ -627,7 +627,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testMonthsOptionLongFormat()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -647,7 +647,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testMonthsOptionLongFormatWithDifferentTimezone()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -733,7 +733,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testPassDatePatternToView()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -746,7 +746,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testPassDatePatternToViewDifferentFormat()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -794,7 +794,7 @@ class DateTypeTest extends BaseTypeTestCase
     public function testDatePatternFormatWithQuotedStrings()
     {
         // we test against "es_ES", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('es_ES');
 

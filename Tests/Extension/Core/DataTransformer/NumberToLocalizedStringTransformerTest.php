@@ -65,7 +65,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testTransform($from, $to, $locale)
     {
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault($locale);
 
@@ -89,7 +89,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testTransformWithGrouping($from, $to, $locale)
     {
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault($locale);
 
@@ -101,7 +101,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testTransformWithScale()
     {
         // Since we test against "de_AT", we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -204,7 +204,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testTransformWithRounding($scale, $input, $output, $roundingMode)
     {
         // Since we test against "de_AT", we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -216,7 +216,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testTransformDoesNotRoundIfNoScale()
     {
         // Since we test against "de_AT", we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -229,7 +229,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testReverseTransform($to, $from, $locale)
     {
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault($locale);
 
@@ -257,7 +257,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testReverseTransformWithGroupingAndFixedSpaces()
     {
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('ru');
 
@@ -269,7 +269,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testReverseTransformWithGroupingButWithoutGroupSeparator()
     {
         // Since we test against "de_AT", we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('de_AT');
 
@@ -432,7 +432,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     public function testDecimalSeparatorMayBeDotIfGroupingSeparatorIsDotButNoGroupingUsed()
     {
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('fr');
         $transformer = new NumberToLocalizedStringTransformer();
@@ -577,7 +577,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->expectException(TransformationFailedException::class);
         $this->expectExceptionMessage('The number contains unrecognized characters: "foo8"');
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('ru');
 
@@ -591,7 +591,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->expectException(TransformationFailedException::class);
         $this->expectExceptionMessage('The number contains unrecognized characters: "foo8"');
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('ru');
 
@@ -614,7 +614,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
         $this->expectException(TransformationFailedException::class);
         $this->expectExceptionMessage('The number contains unrecognized characters: "foo"');
         // Since we test against other locales, we need the full implementation
-        IntlTestHelper::requireFullIntl($this, false);
+        IntlTestHelper::requireFullIntl($this);
 
         \Locale::setDefault('ru');
 
