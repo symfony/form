@@ -52,8 +52,9 @@ class DebugCommandTest extends TestCase
              * Symfony\Component\Form\Tests\Command\FooType
 
 
-            TXT
-            , $tester->getDisplay(true));
+            TXT,
+            $tester->getDisplay(true)
+        );
     }
 
     public function testDebugSingleFormType()
@@ -134,8 +135,9 @@ class DebugCommandTest extends TestCase
             %A
             %A\A\AmbiguousType (Block prefix: "ambiguous")
             %A
-            TXT
-            , $output);
+            TXT,
+            $output
+        );
     }
 
     public function testDebugInvalidFormType()
@@ -183,8 +185,9 @@ class DebugCommandTest extends TestCase
               Nested Options   -         %s
              ---------------- -----------%s
 
-            TXT
-            , $tester->getDisplay(true));
+            TXT,
+            $tester->getDisplay(true)
+        );
     }
 
     #[DataProvider('provideCompletionSuggestions')]
