@@ -21,14 +21,12 @@ class PercentToLocalizedStringTransformerTest extends TestCase
     private string $defaultLocale;
 
     private $initialTestCaseUseException;
-    private $initialTestCaseErrorLevel;
 
     protected function setUp(): void
     {
         // Normalize intl. configuration settings.
         if (\extension_loaded('intl')) {
             $this->initialTestCaseUseException = ini_set('intl.use_exceptions', 0);
-            $this->initialTestCaseErrorLevel = ini_set('intl.error_level', 0);
         }
 
         $this->defaultLocale = \Locale::getDefault();
@@ -41,7 +39,6 @@ class PercentToLocalizedStringTransformerTest extends TestCase
 
         if (\extension_loaded('intl')) {
             ini_set('intl.use_exceptions', $this->initialTestCaseUseException);
-            ini_set('intl.error_level', $this->initialTestCaseErrorLevel);
         }
     }
 
@@ -492,6 +489,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
 
     /**
      * @requires extension intl
+     * @requires PHP < 8.5
      */
     public function testReverseTransformWrapsIntlErrorsWithErrorLevel()
     {
@@ -524,6 +522,7 @@ class PercentToLocalizedStringTransformerTest extends TestCase
 
     /**
      * @requires extension intl
+     * @requires PHP < 8.5
      */
     public function testReverseTransformWrapsIntlErrorsWithExceptionsAndErrorLevel()
     {
