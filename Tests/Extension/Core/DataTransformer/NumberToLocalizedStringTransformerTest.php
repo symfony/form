@@ -12,6 +12,7 @@
 namespace Symfony\Component\Form\Tests\Extension\Core\DataTransformer;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -23,14 +24,12 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     private string $defaultLocale;
 
     private $initialTestCaseUseException;
-    private $initialTestCaseErrorLevel;
 
     protected function setUp(): void
     {
         // Normalize intl. configuration settings.
         if (\extension_loaded('intl')) {
             $this->initialTestCaseUseException = ini_set('intl.use_exceptions', 0);
-            $this->initialTestCaseErrorLevel = ini_set('intl.error_level', 0);
         }
 
         $this->defaultLocale = \Locale::getDefault();
@@ -43,7 +42,6 @@ class NumberToLocalizedStringTransformerTest extends TestCase
 
         if (\extension_loaded('intl')) {
             ini_set('intl.use_exceptions', $this->initialTestCaseUseException);
-            ini_set('intl.error_level', $this->initialTestCaseErrorLevel);
         }
     }
 
@@ -650,6 +648,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     }
 
     #[RequiresPhpExtension('intl')]
+    #[RequiresPhp('< 8.5')]
     public function testReverseTransformWrapsIntlErrorsWithErrorLevel()
     {
         $errorLevel = ini_set('intl.error_level', \E_WARNING);
@@ -678,6 +677,7 @@ class NumberToLocalizedStringTransformerTest extends TestCase
     }
 
     #[RequiresPhpExtension('intl')]
+    #[RequiresPhp('< 8.5')]
     public function testReverseTransformWrapsIntlErrorsWithExceptionsAndErrorLevel()
     {
         $initialUseExceptions = ini_set('intl.use_exceptions', 1);
