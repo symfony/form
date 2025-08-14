@@ -200,7 +200,7 @@ class FormDataCollector extends DataCollector implements FormDataCollectorInterf
     /**
      * @internal
      */
-    public function __sleep(): array
+    public function __serialize(): array
     {
         foreach ($this->data['forms_by_hash'] as &$form) {
             if (isset($form['type_class']) && !$form['type_class'] instanceof ClassStub) {
@@ -208,9 +208,7 @@ class FormDataCollector extends DataCollector implements FormDataCollectorInterf
             }
         }
 
-        $this->data = $this->cloneVar($this->data);
-
-        return parent::__sleep();
+        return ['data' => $this->data = $this->cloneVar($this->data)];
     }
 
     protected function getCasters(): array
