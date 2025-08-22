@@ -61,7 +61,7 @@ class FormPassTest extends TestCase
         $extDefinition = $container->getDefinition('form.extension');
 
         $locator = $extDefinition->getArgument(0);
-        $this->assertTrue(!$locator->isPublic() || $locator->isPrivate());
+        $this->assertTrue($locator->isPrivate());
         $this->assertEquals(
             (new Definition(ServiceLocator::class, [[
                 __CLASS__.'_Type1' => new ServiceClosureArgument(new Reference('my.type1')),
