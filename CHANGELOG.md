@@ -12,6 +12,7 @@ CHANGELOG
 ---
 
  * Add `input=date_point` to `DateTimeType`, `DateType` and `TimeType`
+ * Add support for guessing form type of enum properties
 
 7.3
 ---
