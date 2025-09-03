@@ -7,6 +7,7 @@ CHANGELOG
  * Change default value of `default_protocol` option in `UrlType` from `'http'` to `null`
  * Remove the `VersionAwareTest` trait, use feature detection instead
  * Remove deprecated `ResizeFormListener::preSetData()` method, use `postSetData()` instead
+ * Remove `validation.xml` in `Resources/config`, replaced by attributes on the `Form` class
 
 7.4
 ---

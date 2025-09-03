@@ -44,7 +44,8 @@
         "symfony/var-dumper": "^7.4|^8.0"
     },
     "conflict": {
-        "symfony/translation-contracts": "<2.5"
+        "symfony/translation-contracts": "<2.5",
+        "symfony/validator": "<7.4"
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Form\\": "" },
