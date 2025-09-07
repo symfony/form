@@ -25,6 +25,7 @@ class FixedDataTransformer implements DataTransformerInterface
 
     public function transform($value): mixed
     {
+        $value ??= '';
         if (!\array_key_exists($value, $this->mapping)) {
             throw new TransformationFailedException(\sprintf('No mapping for value "%s"', $value));
         }
