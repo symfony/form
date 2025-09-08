@@ -15,6 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
+ *
+ * @template T
  */
 interface FormTypeInterface
 {
@@ -41,7 +43,8 @@ interface FormTypeInterface
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
-     * @param array<string, mixed> $options
+     * @param FormBuilderInterface<T> $builder
+     * @param array<string, mixed>    $options
      *
      * @return void
      *
@@ -59,7 +62,9 @@ interface FormTypeInterface
      * This means that you cannot access child views in this method. If you need
      * to do so, move your logic to {@link finishView()} instead.
      *
-     * @param array<string, mixed> $options
+     * @param FormView<T>           $form
+     * @param FormInterface<T>      $view
+     * @param array<string, mixed>  $options
      *
      * @return void
      *
@@ -78,7 +83,9 @@ interface FormTypeInterface
      * such logic in this method that actually accesses child views. For everything
      * else you are recommended to implement {@link buildView()} instead.
      *
-     * @param array<string, mixed> $options
+     * @param FormView<T>           $form
+     * @param FormInterface<T>      $view
+     * @param array<string, mixed>  $options
      *
      * @return void
      *

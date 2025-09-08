@@ -16,6 +16,8 @@ use Symfony\Component\Form\Exception\BadMethodCallException;
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  *
+ * @template T
+ *
  * @implements \ArrayAccess<int|string, FormView>
  * @implements \IteratorAggregate<int|string, FormView>
  */
@@ -23,6 +25,8 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * The variables assigned to this view.
+     *
+     * @var array{value: T|null, attr: array<array-key, mixed>, ...<string, mixed>}
      */
     public array $vars = [
         'value' => null,

@@ -26,7 +26,12 @@ interface FormFactoryInterface
      *
      * @see createBuilder()
      *
-     * @param mixed $data The initial data
+     * @template T
+     *
+     * @param class-string<FormTypeInterface<T>> $type
+     * @param T|null                             $data The initial data
+     *
+     * @return FormInterface<T>
      *
      * @throws InvalidOptionsException if any given option is not applicable to the given type
      */
@@ -37,7 +42,12 @@ interface FormFactoryInterface
      *
      * @see createNamedBuilder()
      *
-     * @param mixed $data The initial data
+     * @template T
+     *
+     * @param class-string<FormTypeInterface<T>> $type
+     * @param T|null                             $data The initial data
+     *
+     * @return FormInterface<T>
      *
      * @throws InvalidOptionsException if any given option is not applicable to the given type
      */
@@ -59,7 +69,12 @@ interface FormFactoryInterface
     /**
      * Returns a form builder.
      *
-     * @param mixed $data The initial data
+     * @template T
+     *
+     * @param class-string<FormTypeInterface<T>> $type
+     * @param T|null                             $data The initial data
+     *
+     * @return FormBuilderInterface<T>
      *
      * @throws InvalidOptionsException if any given option is not applicable to the given type
      */
@@ -68,7 +83,12 @@ interface FormFactoryInterface
     /**
      * Returns a form builder.
      *
-     * @param mixed $data The initial data
+     * @template T
+     *
+     * @param class-string<FormTypeInterface<T>> $type
+     * @param T|null $data The initial data
+     *
+     * @return FormBuilderInterface<T>
      *
      * @throws InvalidOptionsException if any given option is not applicable to the given type
      */

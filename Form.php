@@ -68,7 +68,10 @@ use Symfony\Component\Validator\Constraints\Traverse;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bernhard Schussek <bschussek@gmail.com>
  *
+ * @template T
+ *
  * @implements \IteratorAggregate<string, FormInterface>
+ * @implements FormInterface<T>
  */
 #[AssertForm]
 #[Traverse(false)]

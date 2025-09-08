@@ -16,6 +16,10 @@ use Symfony\Component\Form\Util\StringUtil;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
+ * @template T
+ *
+ * @implements FormTypeInterface<T>
+ *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 abstract class AbstractType implements FormTypeInterface
@@ -36,6 +40,8 @@ abstract class AbstractType implements FormTypeInterface
     }
 
     /**
+     * @param FormBuilderInterface<T> $builder
+     *
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -43,6 +49,9 @@ abstract class AbstractType implements FormTypeInterface
     }
 
     /**
+     * @param FormView<T>      $form
+     * @param FormInterface<T> $view
+     *
      * @return void
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -50,6 +59,9 @@ abstract class AbstractType implements FormTypeInterface
     }
 
     /**
+     * @param FormView<T>      $form
+     * @param FormInterface<T> $view
+     *
      * @return void
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
