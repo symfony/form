@@ -17,6 +17,8 @@ use Symfony\Component\PropertyAccess\PropertyPathInterface;
 /**
  * The configuration of a {@link Form} object.
  *
+ * @template T
+ *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 interface FormConfigInterface
@@ -130,6 +132,8 @@ interface FormConfigInterface
 
     /**
      * Returns the initial data of the form.
+     *
+     * @return T|null
      */
     public function getData(): mixed;
 
