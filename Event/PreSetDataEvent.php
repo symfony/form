@@ -17,10 +17,6 @@ use Symfony\Component\Form\FormEvent;
  * This event is dispatched at the beginning of the Form::setData() method.
  *
  * It can be used to modify the data given during pre-population.
- *
- * @template T
- *
- * @extends FormEvent<T>
  */
 final class PreSetDataEvent extends FormEvent
 {

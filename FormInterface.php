@@ -18,8 +18,6 @@ use Symfony\Component\PropertyAccess\PropertyPathInterface;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  *
- * @template T
- *
  * @extends \ArrayAccess<string, FormInterface>
  * @extends \Traversable<string, FormInterface>
  */
@@ -114,9 +112,9 @@ interface FormInterface extends \ArrayAccess, \Traversable, \Countable
     /**
      * Returns the model data in the format needed for the underlying object.
      *
-     * @return T|null When the field is not submitted, the default data is returned.
-     *                When the field is submitted, the default data has been bound
-     *                to the submitted view data.
+     * @return mixed When the field is not submitted, the default data is returned.
+     *               When the field is submitted, the default data has been bound
+     *               to the submitted view data.
      *
      * @throws Exception\RuntimeException If the form inherits data but has no parent
      */
@@ -287,8 +285,5 @@ interface FormInterface extends \ArrayAccess, \Traversable, \Countable
      */
     public function isRoot(): bool;
 
-    /**
-     * @return FormView<T>
-     */
     public function createView(?FormView $parent = null): FormView;
 }

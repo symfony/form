@@ -14,16 +14,10 @@ namespace Symfony\Component\Form;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * @template T
- *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 class FormEvent extends Event
 {
-    /**
-     * @param FormInterface<T> $form The form at the source of the event
-     * @param T                $data The data associated with this event
-     */
     public function __construct(
         private FormInterface $form,
         protected mixed $data,
@@ -32,8 +26,6 @@ class FormEvent extends Event
 
     /**
      * Returns the form at the source of the event.
-     *
-     * @return FormInterface<T>
      */
     public function getForm(): FormInterface
     {
@@ -42,8 +34,6 @@ class FormEvent extends Event
 
     /**
      * Returns the data associated with this event.
-     *
-     * @return T
      */
     public function getData(): mixed
     {
@@ -52,8 +42,6 @@ class FormEvent extends Event
 
     /**
      * Allows updating with some filtered data.
-     *
-     * @param T $data The data associated with this event
      */
     public function setData(mixed $data): void
     {

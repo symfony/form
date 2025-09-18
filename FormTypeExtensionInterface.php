@@ -14,8 +14,6 @@ namespace Symfony\Component\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * @template T
- *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 interface FormTypeExtensionInterface
@@ -35,8 +33,7 @@ interface FormTypeExtensionInterface
      * This method is called after the extended type has built the form to
      * further modify it.
      *
-     * @param FormBuilderInterface<T> $builder
-     * @param array<string, mixed>    $options
+     * @param array<string, mixed> $options
      *
      * @see FormTypeInterface::buildForm()
      */
@@ -48,8 +45,6 @@ interface FormTypeExtensionInterface
      * This method is called after the extended type has built the view to
      * further modify it.
      *
-     * @param FormView<T>          $view
-     * @param FormInterface<T>     $form
      * @param array<string, mixed> $options
      *
      * @see FormTypeInterface::buildView()
@@ -62,8 +57,6 @@ interface FormTypeExtensionInterface
      * This method is called after the extended type has finished the view to
      * further modify it.
      *
-     * @param FormView<T>          $view
-     * @param FormInterface<T>     $form
      * @param array<string, mixed> $options
      *
      * @see FormTypeInterface::finishView()
