@@ -13,17 +13,8 @@ namespace Symfony\Component\Form;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
-use Symfony\Component\Form\Event\PreSetDataEvent;
-use Symfony\Component\Form\Event\PreSubmitEvent;
-use Symfony\Component\Form\Event\PostSetDataEvent;
-use Symfony\Component\Form\Event\SubmitEvent;
-use Symfony\Component\Form\Event\PostSubmitEvent;
 
 /**
- * @template T
- *
- * @extends FormConfigInterface<T>
- *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 interface FormConfigBuilderInterface extends FormConfigInterface
@@ -31,8 +22,6 @@ interface FormConfigBuilderInterface extends FormConfigInterface
     /**
      * Adds an event listener to an event on this form.
      *
-     * @param FormEvents::* $eventName
-     * @param (callable(PreSetDataEvent<T>): void)|(callable(PostSetDataEvent<T>): void)|(callable(PreSubmitEvent): void)|(callable(SubmitEvent<T>): void)|(callable(PostSubmitEvent<T>): void) $listener
      * @param int $priority The priority of the listener. Listeners
      *                      with a higher priority are called before
      *                      listeners with a lower priority.
@@ -258,8 +247,6 @@ interface FormConfigBuilderInterface extends FormConfigInterface
 
     /**
      * Builds and returns the form configuration.
-     *
-     * @return FormConfigInterface<T>
      */
     public function getFormConfig(): FormConfigInterface;
 

@@ -19,10 +19,6 @@ use Symfony\Component\Form\FormEvent;
  * once the model and view data have been denormalized.
  *
  * It can be used to fetch data after denormalization.
- *
- * @template T
- *
- * @extends FormEvent<T>
  */
 final class PostSubmitEvent extends FormEvent
 {

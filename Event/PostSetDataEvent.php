@@ -19,10 +19,6 @@ use Symfony\Component\Form\FormEvent;
  *
  * It can be used to modify a form depending on the populated data (adding or
  * removing fields dynamically).
- *
- * @template T
- *
- * @extends FormEvent<T>
  */
 final class PostSetDataEvent extends FormEvent
 {
