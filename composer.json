@@ -45,6 +45,7 @@
     },
     "conflict": {
         "symfony/translation-contracts": "<2.5",
+        "symfony/intl": "<7.4",
         "symfony/validator": "<7.4"
     },
     "autoload": {
