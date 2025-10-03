@@ -267,6 +267,43 @@ class EnumTypeTest extends BaseTypeTestCase
         $this->assertEquals('Left', $view->children[0]->vars['label']->trans(new IdentityTranslator()));
     }
 
+    public function testChoices()
+    {
+        $form = $this->factory->create($this->getTestedType(), null, [
+            'multiple' => false,
+            'expanded' => true,
+            'class' => Answer::class,
+            'choices' => [
+                Answer::Yes,
+                Answer::No,
+            ],
+        ]);
+
+        $view = $form->createView();
+
+        $this->assertCount(2, $view->children);
+        $this->assertSame('Yes', $view->children[0]->vars['label']);
+        $this->assertSame('No', $view->children[1]->vars['label']);
+    }
+
+    public function testChoicesWithLabels()
+    {
+        $form = $this->factory->create($this->getTestedType(), null, [
+            'multiple' => false,
+            'expanded' => true,
+            'class' => Answer::class,
+            'choices' => [
+                'yes' => Answer::Yes,
+                'no' => Answer::No,
+            ],
+        ]);
+
+        $view = $form->createView();
+
+        $this->assertSame('yes', $view->children[0]->vars['label']);
+        $this->assertSame('no', $view->children[1]->vars['label']);
+    }
+
     protected function getTestOptions(): array
     {
         return ['class' => Suit::class];
