@@ -35,13 +35,14 @@ class CurrencyType extends AbstractType
                 $activeAt = $options['active_at'];
                 $notActiveAt = $options['not_active_at'];
                 $legalTender = $options['legal_tender'];
+                $includeUndated = $options['include_undated'];
 
                 if (null !== $activeAt && null !== $notActiveAt) {
                     throw new InvalidOptionsException('The "active_at" and "not_active_at" options cannot be used together.');
                 }
 
                 $legalTenderCacheKey = match ($legalTender) {
-                    null => '',
+                    null => 'X',
                     true => '1',
                     false => '0',
                 };
@@ -49,7 +50,7 @@ class CurrencyType extends AbstractType
                 return ChoiceList::loader(
                     $this,
                     new IntlCallbackChoiceLoader(
-                        static function () use ($choiceTranslationLocale, $activeAt, $notActiveAt, $legalTender) {
+                        static function () use ($choiceTranslationLocale, $activeAt, $notActiveAt, $legalTender, $includeUndated) {
                             if (null === $activeAt && null === $notActiveAt && null === $legalTender) {
                                 return array_flip(Currencies::getNames($choiceTranslationLocale));
                             }
@@ -63,7 +64,7 @@ class CurrencyType extends AbstractType
                             };
 
                             foreach (Currencies::getCurrencyCodes() as $code) {
-                                if (!Currencies::isValidInAnyCountry($code, $legalTender, $active, $activeAt ?? $notActiveAt)) {
+                                if (!Currencies::isValidInAnyCountry($code, $legalTender, $active, $activeAt ?? $notActiveAt, $includeUndated)) {
                                     continue;
                                 }
 
@@ -73,13 +74,14 @@ class CurrencyType extends AbstractType
                             return array_flip($filteredCurrencyNames);
                         },
                     ),
-                    $choiceTranslationLocale.($activeAt ?? $notActiveAt)?->format('Y-m-d\TH:i:s').$legalTenderCacheKey,
+                    $choiceTranslationLocale.($activeAt ?? $notActiveAt)?->format('Y-m-d\TH:i:s').$legalTenderCacheKey.(int) $includeUndated,
                 );
             },
             'choice_translation_domain' => false,
             'choice_translation_locale' => null,
             'active_at' => new \DateTimeImmutable('today', new \DateTimeZone('Etc/UTC')),
             'not_active_at' => null,
+            'include_undated' => true,
             'legal_tender' => true,
             'invalid_message' => 'Please select a valid currency.',
         ]);
@@ -88,6 +90,7 @@ class CurrencyType extends AbstractType
         $resolver->setAllowedTypes('active_at', [\DateTimeInterface::class, 'null']);
         $resolver->setAllowedTypes('not_active_at', [\DateTimeInterface::class, 'null']);
         $resolver->setAllowedTypes('legal_tender', ['bool', 'null']);
+        $resolver->setAllowedTypes('include_undated', 'bool');
     }
 
     public function getParent(): ?string
