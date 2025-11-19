@@ -221,6 +221,18 @@ class FormFlow extends Form implements FormFlowInterface
             if (!$this->config->getStep($newStep)->isSkipped($data)) {
                 break;
             }
+
+            if ($cursor->isLastStep()) {
+                $this->finished = true;
+
+                if ($this->config->isAutoReset()) {
+                    $this->reset();
+
+                    return true;
+                }
+
+                break;
+            }
         }
 
         $this->cursor = $cursor;
