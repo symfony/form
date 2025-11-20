@@ -26,6 +26,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\Tests\Fixtures\Flow\Data\UserSignUp;
 use Symfony\Component\Form\Tests\Fixtures\Flow\Extension\UserSignUpTypeExtension;
+use Symfony\Component\Form\Tests\Fixtures\Flow\LastStepSkippedType;
 use Symfony\Component\Form\Tests\Fixtures\Flow\UserSignUpType;
 use Symfony\Component\Validator\Mapping\Factory\LazyLoadingMetadataFactory;
 use Symfony\Component\Validator\Mapping\Loader\AttributeLoader;
@@ -931,5 +932,41 @@ class FormFlowTest extends TestCase
 
         // Check that validation groups are updated
         self::assertEquals(['Default', 'professional'], $flow->getConfig()->getOption('validation_groups')($flow));
+    }
+
+    public function testLastStepSkippedMarkFlowAsFinished()
+    {
+        $flow = $this->factory->create(LastStepSkippedType::class, ['currentStep' => 'step1']);
+
+        self::assertSame('step1', $flow->getCursor()->getCurrentStep());
+        self::assertFalse($flow->isSubmitted());
+        self::assertNull($flow->getClickedButton());
+        self::assertTrue($flow->has('step1'));
+        self::assertTrue($flow->has('navigator'));
+
+        $navigatorForm = $flow->get('navigator');
+        self::assertCount(1, $navigatorForm->all());
+        self::assertTrue($navigatorForm->has('next'));
+
+        $flow->submit([
+            'step1' => 'foo',
+            'navigator' => [
+                'next' => '',
+            ],
+        ]);
+
+        self::assertSame('step1', $flow->getCursor()->getCurrentStep());
+        self::assertTrue($flow->isSubmitted());
+        self::assertTrue($flow->isValid());
+        self::assertFalse($flow->isFinished());
+        self::assertNotNull($button = $flow->getClickedButton());
+        self::assertTrue($button->isNextAction());
+        self::assertTrue($button->isClicked());
+
+        $button->handle(); // $flow->moveNext() is called internally
+
+        self::assertTrue($flow->isFinished());
+        self::assertNotSame($flow, $flow->getStepForm());
+        self::assertSame(['currentStep' => 'step1', 'step1' => 'foo'], $flow->getData());
     }
 }
