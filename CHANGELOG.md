@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Add `ResetFlowType` button in `NavigatorFlowType` that you can display with `with_reset` option
+
 8.0
 ---
 

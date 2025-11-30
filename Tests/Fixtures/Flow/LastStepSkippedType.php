@@ -24,7 +24,9 @@ class LastStepSkippedType extends AbstractFlowType
         $builder->addStep('step1', TextType::class);
         $builder->addStep('step2', skip: static fn () => true);
 
-        $builder->add('navigator', NavigatorFlowType::class);
+        $builder->add('navigator', NavigatorFlowType::class, [
+            'with_reset' => true,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
