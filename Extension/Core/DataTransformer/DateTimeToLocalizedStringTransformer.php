@@ -69,14 +69,6 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
         $this->timeFormat = $timeFormat;
     }
 
-    /**
-     * Transforms a normalized date into a localized date string/array.
-     *
-     * @param \DateTimeInterface $dateTime A DateTimeInterface object
-     *
-     * @throws TransformationFailedException if the given value is not a \DateTimeInterface
-     *                                       or if the date could not be transformed
-     */
     public function transform(mixed $dateTime): string
     {
         if (null === $dateTime) {
@@ -96,14 +88,6 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
         return $value;
     }
 
-    /**
-     * Transforms a localized date string/array into a normalized date.
-     *
-     * @param string $value Localized date string
-     *
-     * @throws TransformationFailedException if the given value is not a string,
-     *                                       if the date could not be parsed
-     */
     public function reverseTransform(mixed $value): ?\DateTime
     {
         if (!\is_string($value)) {
