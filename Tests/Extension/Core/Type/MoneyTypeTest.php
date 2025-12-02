@@ -123,4 +123,44 @@ class MoneyTypeTest extends BaseTypeTestCase
         $this->assertSame('12345.60', $form->createView()->vars['value']);
         $this->assertSame('number', $form->createView()->vars['type']);
     }
+
+    public function testHtml5AddsStepAttributeIfNotSet()
+    {
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'html5' => true,
+        ]);
+        $view = $form->createView();
+        $this->assertSame('any', $view->vars['attr']['step']);
+
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'html5' => false,
+            'scale' => 2,
+        ]);
+        $view = $form->createView();
+        $this->assertSame('decimal', $view->vars['attr']['inputmode']);
+
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'html5' => false,
+            'scale' => 0,
+        ]);
+        $view = $form->createView();
+        $this->assertSame('numeric', $view->vars['attr']['inputmode']);
+    }
+
+    public function testHtml5DoesNotOverrideUserProvidedStep()
+    {
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'html5' => true,
+            'attr' => ['step' => '0.01'],
+        ]);
+        $view = $form->createView();
+        $this->assertSame('0.01', $view->vars['attr']['step']);
+
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'html5' => false,
+            'scale' => 2,
+        ]);
+        $view = $form->createView();
+        $this->assertSame('decimal', $view->vars['attr']['inputmode']);
+    }
 }
