@@ -920,8 +920,8 @@ class CompoundFormTest extends TestCase
     public function testCreateViewWithChildren()
     {
         $type = $this->createMock(ResolvedFormTypeInterface::class);
-        $type1 = $this->createMock(ResolvedFormTypeInterface::class);
-        $type2 = $this->createMock(ResolvedFormTypeInterface::class);
+        $type1 = $this->createStub(ResolvedFormTypeInterface::class);
+        $type2 = $this->createStub(ResolvedFormTypeInterface::class);
         $options = ['a' => 'Foo', 'b' => 'Bar'];
         $field1 = $this->getBuilder('foo')
             ->setType($type1)

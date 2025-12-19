@@ -11,7 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\PasswordHasher\Type;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -21,13 +21,15 @@ use Symfony\Component\Form\Extension\PasswordHasher\PasswordHasherExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Form\Tests\Fixtures\RepeatedPasswordField;
 use Symfony\Component\Form\Tests\Fixtures\User;
+use Symfony\Component\PasswordHasher\Hasher\MessageDigestPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
 {
-    protected MockObject&UserPasswordHasherInterface $passwordHasher;
+    protected UserPasswordHasherInterface $passwordHasher;
 
     protected function setUp(): void
     {
@@ -35,7 +37,10 @@ class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
             $this->markTestSkipped('PasswordAuthenticatedUserInterface not available.');
         }
 
-        $this->passwordHasher = $this->createMock(UserPasswordHasher::class);
+        $this->passwordHasher = new UserPasswordHasher(new PasswordHasherFactory([
+            User::class => new MessageDigestPasswordHasher('md5', false),
+        ]));
+        $this->dispatcher = new EventDispatcher();
 
         parent::setUp();
     }
@@ -52,14 +57,7 @@ class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
         $user = new User();
 
         $plainPassword = 'PlainPassword';
-        $hashedPassword = 'HashedPassword';
-
-        $this->passwordHasher
-            ->expects($this->once())
-            ->method('hashPassword')
-            ->with($user, $plainPassword)
-            ->willReturn($hashedPassword)
-        ;
+        $hashedPassword = 'ec2d1846a8e988d344750b904739e19b';
 
         $this->assertNull($user->getPassword());
 
@@ -85,11 +83,6 @@ class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
         $user = new User();
         $user->setPassword($oldHashedPassword);
 
-        $this->passwordHasher
-            ->expects($this->never())
-            ->method('hashPassword')
-        ;
-
         $this->assertEquals($user->getPassword(), $oldHashedPassword);
 
         $form = $this->factory
@@ -113,14 +106,7 @@ class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
         $user = new User();
 
         $plainPassword = 'PlainPassword';
-        $hashedPassword = 'HashedPassword';
-
-        $this->passwordHasher
-            ->expects($this->once())
-            ->method('hashPassword')
-            ->with($user, $plainPassword)
-            ->willReturn($hashedPassword)
-        ;
+        $hashedPassword = 'ec2d1846a8e988d344750b904739e19b';
 
         $this->assertNull($user->getPassword());
 
@@ -152,14 +138,7 @@ class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
         $user = new User();
 
         $plainPassword = 'PlainPassword';
-        $hashedPassword = 'HashedPassword';
-
-        $this->passwordHasher
-            ->expects($this->once())
-            ->method('hashPassword')
-            ->with($user, $plainPassword)
-            ->willReturn($hashedPassword)
-        ;
+        $hashedPassword = 'ec2d1846a8e988d344750b904739e19b';
 
         $this->assertNull($user->getPassword());
 
@@ -194,11 +173,6 @@ class PasswordTypePasswordHasherExtensionTest extends TypeTestCase
     public function testPasswordHashOnInvalidForm()
     {
         $user = new User();
-
-        $this->passwordHasher
-            ->expects($this->never())
-            ->method('hashPassword')
-        ;
 
         $this->assertNull($user->getPassword());
 
