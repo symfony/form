@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\CoreExtension;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -28,10 +29,17 @@ class ChoiceTypeTranslationTest extends TypeTestCase
         'Roman' => 'e',
     ];
 
+    protected function setUp(): void
+    {
+        $this->dispatcher = new EventDispatcher();
+
+        parent::setUp();
+    }
+
     protected function getExtensions(): array
     {
-        $translator = $this->createMock(TranslatorInterface::class);
-        $translator->expects($this->any())->method('trans')
+        $translator = $this->createStub(TranslatorInterface::class);
+        $translator->method('trans')
             ->willReturnCallback(fn ($key, $params) => strtr(\sprintf('Translation of: %s', $key), $params)
             );
 

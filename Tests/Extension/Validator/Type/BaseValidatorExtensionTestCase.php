@@ -11,15 +11,25 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Validator\Type;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Constraints\GroupSequence;
+use Symfony\Component\Validator\ValidatorBuilder;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 abstract class BaseValidatorExtensionTestCase extends TypeTestCase
 {
+    protected function setUp(): void
+    {
+        $this->dispatcher = new EventDispatcher();
+
+        parent::setUp();
+    }
+
     public function testValidationGroupNullByDefault()
     {
         $form = $this->createForm();
@@ -82,4 +92,11 @@ abstract class BaseValidatorExtensionTestCase extends TypeTestCase
     }
 
     abstract protected function createForm(array $options = []);
+
+    protected function getExtensions(): array
+    {
+        return [
+            new ValidatorExtension((new ValidatorBuilder())->getValidator()),
+        ];
+    }
 }
