@@ -93,7 +93,7 @@ abstract class BaseValidatorExtensionTestCase extends TypeTestCase
 
     abstract protected function createForm(array $options = []);
 
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return [
             new ValidatorExtension((new ValidatorBuilder())->getValidator()),
