@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Validator\Type;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Validator\Type\UploadValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\Options;
@@ -20,6 +21,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UploadValidatorExtensionTest extends TypeTestCase
 {
+    protected function setUp(): void
+    {
+        $this->dispatcher = new EventDispatcher();
+
+        parent::setUp();
+    }
+
     public function testPostMaxSizeTranslation()
     {
         $extension = new UploadValidatorExtension(new DummyTranslator());
