@@ -28,8 +28,8 @@ class NextFlowType extends AbstractButtonFlowType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'handler' => fn (mixed $data, ButtonFlowInterface $button, FormFlowInterface $flow) => $flow->moveNext(),
-            'include_if' => fn (FormFlowCursor $cursor): bool => $cursor->canMoveNext(),
+            'handler' => static fn (mixed $data, ButtonFlowInterface $button, FormFlowInterface $flow) => $flow->moveNext(),
+            'include_if' => static fn (FormFlowCursor $cursor): bool => $cursor->canMoveNext(),
         ]);
     }
 }
