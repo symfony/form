@@ -168,8 +168,8 @@ class FormTypeValidatorExtensionTest extends BaseValidatorExtensionTestCase
             ->addPropertyConstraint('firstName', new NotBlank());
         $organizationMetadata = (new ClassMetadata(Organization::class))
             ->addPropertyConstraint('authors', new Valid());
-        $metadataFactory = $this->createMock(MetadataFactoryInterface::class);
-        $metadataFactory->expects($this->any())
+        $metadataFactory = $this->createStub(MetadataFactoryInterface::class);
+        $metadataFactory
             ->method('getMetadataFor')
             ->willReturnCallback(static function ($classOrObject) use ($formMetadata, $authorMetadata, $organizationMetadata) {
                 if (Author::class === $classOrObject || $classOrObject instanceof Author) {
@@ -259,8 +259,8 @@ class FormTypeValidatorExtensionTest extends BaseValidatorExtensionTestCase
             ->addPropertyConstraint('firstName', new Length(1));
         $organizationMetadata = (new ClassMetadata(Organization::class))
             ->addPropertyConstraint('authors', new Valid());
-        $metadataFactory = $this->createMock(MetadataFactoryInterface::class);
-        $metadataFactory->expects($this->any())
+        $metadataFactory = $this->createStub(MetadataFactoryInterface::class);
+        $metadataFactory
             ->method('getMetadataFor')
             ->willReturnCallback(static function ($classOrObject) use ($formMetadata, $authorMetadata, $organizationMetadata) {
                 if (Author::class === $classOrObject || $classOrObject instanceof Author) {
