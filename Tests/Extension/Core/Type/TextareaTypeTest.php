@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Form\Tests\Extension\Core\Type;
 
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class TextareaTypeTest extends BaseTypeTestCase
@@ -85,5 +86,34 @@ class TextareaTypeTest extends BaseTypeTestCase
         $form->submit("  Line 1\r\nLine 2  ");
 
         $this->assertSame("Line 1\nLine 2", $form->getData());
+    }
+
+    public function testCustomViewTransformerTakesPrecedence()
+    {
+        $form = $this->factory->createBuilder(static::TESTED_TYPE)
+            ->addViewTransformer(new CallbackTransformer(
+                static function (?string $value) {
+                    if (null === $value) {
+                        return null;
+                    }
+
+                    return str_replace(';', "\r\n", $value);
+                },
+                static function (?string $value) {
+                    if (null === $value) {
+                        return null;
+                    }
+
+                    return str_replace("\r\n", ';', $value);
+                }
+            ))
+            ->getForm();
+        $form->setData('foo;bar');
+
+        $this->assertSame("foo\r\nbar", $form->getViewData());
+
+        $form->submit("bar\r\nbaz");
+
+        $this->assertSame('bar;baz', $form->getData());
     }
 }
