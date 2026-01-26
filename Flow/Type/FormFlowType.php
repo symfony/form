@@ -97,18 +97,14 @@ class FormFlowType extends AbstractFlowType
         $resolver->define('step_property_path')
             ->info('Required if the default step_accessor is being used')
             ->allowedTypes('string', PropertyPathInterface::class)
-            ->normalize(static function (Options $options, string|PropertyPathInterface $value): PropertyPathInterface {
-                return \is_string($value) ? new PropertyPath($value) : $value;
-            });
+            ->normalize(static fn (Options $options, string|PropertyPathInterface $value): PropertyPathInterface => \is_string($value) ? new PropertyPath($value) : $value);
 
         $resolver->define('auto_reset')
             ->info('Whether the FormFlow will be reset automatically when it is finished')
             ->default(true)
             ->allowedTypes('bool');
 
-        $resolver->setDefault('validation_groups', static function (FormFlowInterface $flow) {
-            return ['Default', $flow->getCursor()->getCurrentStep()];
-        });
+        $resolver->setDefault('validation_groups', static fn (FormFlowInterface $flow) => ['Default', $flow->getCursor()->getCurrentStep()]);
     }
 
     public function getParent(): string

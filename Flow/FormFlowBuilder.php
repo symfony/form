@@ -202,9 +202,7 @@ class FormFlowBuilder extends FormBuilder implements FormFlowBuilderInterface
             throw new InvalidArgumentException('Steps not configured.');
         }
 
-        uasort($this->steps, static function (StepFlowBuilderConfigInterface $a, StepFlowBuilderConfigInterface $b) {
-            return $b->getPriority() <=> $a->getPriority();
-        });
+        uasort($this->steps, static fn (StepFlowBuilderConfigInterface $a, StepFlowBuilderConfigInterface $b) => $b->getPriority() <=> $a->getPriority());
 
         $currentStep = $this->resolveCurrentStep();
 
