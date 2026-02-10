@@ -8,6 +8,7 @@ CHANGELOG
  * Allow injecting a `ViolationMapperInterface` into `FormTypeValidatorExtension`
  * Deprecate passing boolean as the second argument of `ValidatorExtension` and `FormTypeValidatorExtension`'s constructors; pass a `ViolationMapperInterface` instead
  * Add argument `$violationMapper` to `ValidatorExtensionTrait` and `TypeTestCase`'s `getExtensions()` methods
+ * Add default `min`/`max` attributes to `BirthdayType` when `widget` is `single_text`
 
 8.0
 ---
