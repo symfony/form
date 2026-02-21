@@ -260,6 +260,20 @@ class FormPassTest extends TestCase
         );
     }
 
+    public function testTypeExtensionClassIsTrackedAsResource()
+    {
+        $container = $this->createContainerBuilder();
+
+        $container->setDefinition('form.extension', $this->createExtensionDefinition());
+        $container->register('my.type_extension', Type1TypeExtension::class)
+            ->addTag('form.type_extension');
+
+        $container->compile();
+
+        $resources = array_map('strval', $container->getResources());
+        $this->assertContains('reflection.'.Type1TypeExtension::class, $resources);
+    }
+
     /**
      * @dataProvider privateTaggedServicesProvider
      */

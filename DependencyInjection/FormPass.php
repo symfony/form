@@ -86,6 +86,7 @@ class FormPass implements CompilerPassInterface
                 $extendsTypes = false;
 
                 $typeExtensionsClasses[] = $typeExtensionClass;
+                $container->getReflectionClass($typeExtensionClass);
                 foreach ($typeExtensionClass::getExtendedTypes() as $extendedType) {
                     $typeExtensions[$extendedType][] = new Reference($serviceId);
                     $extendsTypes = true;
