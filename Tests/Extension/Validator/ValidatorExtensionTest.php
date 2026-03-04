@@ -46,4 +46,22 @@ class ValidatorExtensionTest extends TestCase
         $this->assertSame(TraversalStrategy::NONE, $metadata->getTraversalStrategy());
         $this->assertCount(0, $metadata->getPropertyMetadata('children'));
     }
+
+    public function testNoDoubleConstraintWhenInstantiatedTwice()
+    {
+        $metadata = new ClassMetadata(Form::class);
+
+        $metadataFactory = new FakeMetadataFactory();
+        $metadataFactory->addMetadata($metadata);
+
+        $validator = Validation::createValidatorBuilder()
+            ->setMetadataFactory($metadataFactory)
+            ->getValidator();
+
+        new ValidatorExtension($validator, false);
+        new ValidatorExtension($validator, false);
+
+        $this->assertCount(1, $metadata->getConstraints());
+        $this->assertInstanceOf(FormConstraint::class, $metadata->getConstraints()[0]);
+    }
 }
