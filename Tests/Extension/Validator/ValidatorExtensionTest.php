@@ -58,8 +58,8 @@ class ValidatorExtensionTest extends TestCase
             ->setMetadataFactory($metadataFactory)
             ->getValidator();
 
-        new ValidatorExtension($validator, false);
-        new ValidatorExtension($validator, false);
+        new ValidatorExtension($validator);
+        new ValidatorExtension($validator);
 
         $this->assertCount(1, $metadata->getConstraints());
         $this->assertInstanceOf(FormConstraint::class, $metadata->getConstraints()[0]);
