@@ -26,12 +26,17 @@ class SessionDataStorage implements DataStorageInterface
 
     public function save(object|array $data): void
     {
-        $this->requestStack->getSession()->set($this->key, $data);
+        $this->requestStack->getSession()->set($this->key, unserialize(serialize($data)));
     }
 
     public function load(object|array|null $default = null): object|array|null
     {
-        return $this->requestStack->getSession()->get($this->key, $default);
+        if (null === $data = $this->requestStack->getSession()->get($this->key)) {
+            return $default;
+        }
+
+        // Deep clone to decouple the returned data from the session's internal storage
+        return unserialize(serialize($data));
     }
 
     public function clear(): void
