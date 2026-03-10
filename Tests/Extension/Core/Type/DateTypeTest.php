@@ -1204,6 +1204,39 @@ class DateTypeTest extends BaseTypeTestCase
         $this->assertSame('113-03-31', $form->getViewData());
     }
 
+    public function testPassLabelsAsArray()
+    {
+        $view = $this->factory->create(static::TESTED_TYPE, null, [
+            'widget' => 'choice',
+            'labels' => [
+                'year' => 'Year label',
+                'month' => 'Month label',
+                'day' => 'Day label',
+            ],
+        ])
+            ->createView();
+
+        $this->assertSame('Year label', $view['year']->vars['label']);
+        $this->assertSame('Month label', $view['month']->vars['label']);
+        $this->assertSame('Day label', $view['day']->vars['label']);
+    }
+
+    public function testPassLabelsAsPartialArray()
+    {
+        $view = $this->factory->create(static::TESTED_TYPE, null, [
+            'widget' => 'choice',
+            'labels' => [
+                'year' => 'Year label',
+                'day' => 'Day label',
+            ],
+        ])
+            ->createView();
+
+        $this->assertSame('Year label', $view['year']->vars['label']);
+        $this->assertNull($view['month']->vars['label']);
+        $this->assertSame('Day label', $view['day']->vars['label']);
+    }
+
     protected function getTestOptions(): array
     {
         return ['widget' => 'choice'];

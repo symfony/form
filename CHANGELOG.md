@@ -10,6 +10,7 @@ CHANGELOG
  * Deprecate passing boolean as the second argument of `ValidatorExtension` and `FormTypeValidatorExtension`'s constructors; pass a `ViolationMapperInterface` instead
  * Add argument `$violationMapper` to `ValidatorExtensionTrait` and `TypeTestCase`'s `getExtensions()` methods
  * Add default `min`/`max` attributes to `BirthdayType` when `widget` is `single_text`
+ * Add `labels` option to `DateType` to customize the year, month and day sub-field labels
 
 8.0
 ---
