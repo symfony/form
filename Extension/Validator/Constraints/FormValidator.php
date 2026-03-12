@@ -247,6 +247,8 @@ class FormValidator extends ConstraintValidator
      *
      * @param string|GroupSequence|array<string|GroupSequence>|callable $groups The validation groups
      *
+     * @param-immediately-invoked-callable $groups
+     *
      * @return GroupSequence|array<string|GroupSequence>
      */
     private static function resolveValidationGroups(string|GroupSequence|array|callable $groups, FormInterface $form): GroupSequence|array
