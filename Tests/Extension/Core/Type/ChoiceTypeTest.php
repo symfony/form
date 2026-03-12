@@ -1672,6 +1672,31 @@ class ChoiceTypeTest extends BaseTypeTestCase
         $this->assertSame('', $view->vars['placeholder']);
     }
 
+    public function testPlaceholderAttrIsEmptyByDefaultIfNotRequired()
+    {
+        $view = $this->factory->create(static::TESTED_TYPE, null, [
+            'multiple' => false,
+            'required' => false,
+            'choices' => $this->choices,
+        ])
+            ->createView();
+
+        $this->assertSame([], $view->vars['placeholder_attr']);
+    }
+
+    public function testPlaceholderAttrIsHiddenByDefaultIfRequired()
+    {
+        $view = $this->factory->create(static::TESTED_TYPE, null, [
+            'multiple' => false,
+            'required' => true,
+            'placeholder' => 'Select an option',
+            'choices' => $this->choices,
+        ])
+            ->createView();
+
+        $this->assertSame(['hidden' => true], $view->vars['placeholder_attr']);
+    }
+
     #[DataProvider('getOptionsWithPlaceholder')]
     public function testPassPlaceholderToView($multiple, $expanded, $required, $placeholder, $placeholderViewValue, $placeholderAttr, $placeholderAttrViewValue)
     {
