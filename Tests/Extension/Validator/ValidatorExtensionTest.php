@@ -64,4 +64,23 @@ class ValidatorExtensionTest extends TestCase
         $this->assertCount(1, $metadata->getConstraints());
         $this->assertInstanceOf(FormConstraint::class, $metadata->getConstraints()[0]);
     }
+
+    public function testPropertiesInitializedWithEarlyReturn()
+    {
+        $metadata = new ClassMetadata(Form::class);
+        $metadata->addConstraint(new FormConstraint());
+
+        $metadataFactory = new FakeMetadataFactory();
+        $metadataFactory->addMetadata($metadata);
+
+        $validator = Validation::createValidatorBuilder()
+            ->setMetadataFactory($metadataFactory)
+            ->getValidator();
+
+        // create with an early return condition
+        $extension = new ValidatorExtension($validator, false);
+
+        // verify the extension is functional after an early return
+        $this->assertInstanceOf(ValidatorTypeGuesser::class, $extension->loadTypeGuesser());
+    }
 }
