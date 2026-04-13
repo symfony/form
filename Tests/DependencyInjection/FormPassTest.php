@@ -313,7 +313,7 @@ class FormPassTest extends TestCase
                 'my.type',
                 'stdClass',
                 'form.type',
-                function (ContainerBuilder $container) {
+                static function (ContainerBuilder $container) {
                     $formTypes = $container->getDefinition('form.extension')->getArgument(0);
 
                     self::assertInstanceOf(Reference::class, $formTypes);
@@ -331,7 +331,7 @@ class FormPassTest extends TestCase
                 'my.type_extension',
                 Type1TypeExtension::class,
                 'form.type_extension',
-                function (ContainerBuilder $container) {
+                static function (ContainerBuilder $container) {
                     self::assertEquals(
                         ['Symfony\Component\Form\Extension\Core\Type\FormType' => new IteratorArgument([new Reference('my.type_extension')])],
                         $container->getDefinition('form.extension')->getArgument(1)
@@ -339,7 +339,7 @@ class FormPassTest extends TestCase
                 },
                 ['extended_type' => 'Symfony\Component\Form\Extension\Core\Type\FormType'],
             ],
-            ['my.guesser', 'stdClass', 'form.type_guesser', function (ContainerBuilder $container) {
+            ['my.guesser', 'stdClass', 'form.type_guesser', static function (ContainerBuilder $container) {
                 self::assertEquals(new IteratorArgument([new Reference('my.guesser')]), $container->getDefinition('form.extension')->getArgument(2));
             }],
         ];

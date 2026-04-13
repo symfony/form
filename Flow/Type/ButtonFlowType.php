@@ -36,9 +36,9 @@ class ButtonFlowType extends AbstractType implements ButtonFlowTypeInterface
             ->info('Decide whether to include this button in the current form')
             ->default(null)
             ->allowedTypes('null', 'array', 'callable')
-            ->normalize(function (Options $options, mixed $value) {
+            ->normalize(static function (Options $options, mixed $value) {
                 if (\is_array($value)) {
-                    return fn (FormFlowCursor $cursor): bool => \in_array($cursor->getCurrentStep(), $value, true);
+                    return static fn (FormFlowCursor $cursor): bool => \in_array($cursor->getCurrentStep(), $value, true);
                 }
 
                 return $value;
@@ -49,11 +49,11 @@ class ButtonFlowType extends AbstractType implements ButtonFlowTypeInterface
             ->default(false)
             ->allowedTypes('bool');
 
-        $resolver->setDefault('validate', function (Options $options) {
+        $resolver->setDefault('validate', static function (Options $options) {
             return !$options['clear_submission'];
         });
 
-        $resolver->setDefault('validation_groups', function (Options $options) {
+        $resolver->setDefault('validation_groups', static function (Options $options) {
             return $options['clear_submission'] ? false : null;
         });
     }
