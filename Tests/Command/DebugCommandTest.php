@@ -176,7 +176,6 @@ class DebugCommandTest extends TestCase
               Normalizers      [         %s
                                  Closure(%s
                                    class:%s
-                                   this: %s
                                    file: %s
                                    line: %s
                                  }       %s
