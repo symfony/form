@@ -85,14 +85,14 @@ class FormFlow extends Form implements FormFlowInterface
             return;
         }
 
-        if (!$this->move(fn (FormFlowCursor $cursor) => $cursor->getPreviousStep())) {
+        if (!$this->move(static fn (FormFlowCursor $cursor) => $cursor->getPreviousStep())) {
             throw new RuntimeException('Cannot determine previous step.');
         }
     }
 
     public function moveNext(): void
     {
-        if (!$this->move(fn (FormFlowCursor $cursor) => $cursor->getNextStep())) {
+        if (!$this->move(static fn (FormFlowCursor $cursor) => $cursor->getNextStep())) {
             throw new RuntimeException('Cannot determine next step.');
         }
     }

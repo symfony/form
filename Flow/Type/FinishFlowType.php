@@ -28,8 +28,8 @@ class FinishFlowType extends AbstractButtonFlowType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'handler' => fn (mixed $data, ButtonFlowInterface $button, FormFlowInterface $flow) => $flow->reset(),
-            'include_if' => fn (FormFlowCursor $cursor): bool => $cursor->isLastStep(),
+            'handler' => static fn (mixed $data, ButtonFlowInterface $button, FormFlowInterface $flow) => $flow->reset(),
+            'include_if' => static fn (FormFlowCursor $cursor): bool => $cursor->isLastStep(),
         ]);
     }
 }
