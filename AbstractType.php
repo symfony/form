@@ -37,8 +37,6 @@ abstract class AbstractType implements FormTypeInterface
     {
     }
 
-    /**
-     */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
     }

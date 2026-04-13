@@ -49,13 +49,9 @@ class ButtonFlowType extends AbstractType implements ButtonFlowTypeInterface
             ->default(false)
             ->allowedTypes('bool');
 
-        $resolver->setDefault('validate', static function (Options $options) {
-            return !$options['clear_submission'];
-        });
+        $resolver->setDefault('validate', static fn (Options $options) => !$options['clear_submission']);
 
-        $resolver->setDefault('validation_groups', static function (Options $options) {
-            return $options['clear_submission'] ? false : null;
-        });
+        $resolver->setDefault('validation_groups', static fn (Options $options) => $options['clear_submission'] ? false : null);
     }
 
     public function getParent(): string

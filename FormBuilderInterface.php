@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\Form;
 
-use Symfony\Component\Form\FormTypeInterface;
-
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>
  *
