@@ -31,6 +31,7 @@ class ResizeFormListener implements EventSubscriberInterface
     // BC, to be removed in 8.0
     private bool $overridden = true;
     private bool $usePreSetData = false;
+    private array $preSetDataChildrenStack = [];
 
     public function __construct(
         private string $type,
@@ -65,6 +66,8 @@ class ResizeFormListener implements EventSubscriberInterface
             || __CLASS__ === (new \ReflectionClass($this))->getMethod('preSetData')->getDeclaringClass()->name
         ) {
             // not a child class, or child class does not overload PRE_SET_DATA
+            $this->preSetDataChildrenStack[] = iterator_to_array($event->getForm());
+
             return;
         }
 
@@ -101,18 +104,32 @@ class ResizeFormListener implements EventSubscriberInterface
 
         $form = $event->getForm();
         $data = $event->getData() ?? [];
+        $childrenToRemove = array_pop($this->preSetDataChildrenStack);
 
         if (!\is_array($data) && !($data instanceof \Traversable && $data instanceof \ArrayAccess)) {
             throw new UnexpectedTypeException($data, 'array or (\Traversable and \ArrayAccess)');
         }
 
-        // First remove all rows
-        foreach ($form as $name => $child) {
-            $form->remove($name);
+        if (null === $childrenToRemove) {
+            // First remove all rows
+            foreach ($form as $name => $child) {
+                $form->remove($name);
+            }
+        } else {
+            // First remove all rows that existed before PRE_SET_DATA listeners were called
+            foreach ($childrenToRemove as $name => $child) {
+                if ($form->has($name) && $form->get($name) === $child) {
+                    $form->remove($name);
+                }
+            }
         }
 
         // Then add all rows again in the correct order
         foreach ($data as $name => $value) {
+            if ($form->has($name)) {
+                continue;
+            }
+
             $form->add($name, $this->type, array_replace([
                 'property_path' => '['.$name.']',
             ], $this->options));
