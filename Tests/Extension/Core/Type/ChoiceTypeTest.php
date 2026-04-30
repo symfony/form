@@ -2109,6 +2109,48 @@ class ChoiceTypeTest extends BaseTypeTestCase
         $this->assertSame('choice_translation_domain', $form->children[1]->vars['translation_domain']);
     }
 
+    public function testPlaceholderSubFormUsesTranslationDomainInsteadOfChoiceTranslationDomain()
+    {
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'label' => 'label',
+            'translation_domain' => 'label_translation_domain',
+            'choices' => [
+                'choice1' => true,
+                'choice2' => false,
+            ],
+            'choice_translation_domain' => 'choice_translation_domain',
+            'placeholder' => 'placeholder_label',
+            'expanded' => true,
+            'required' => false,
+        ])->createView();
+
+        $this->assertCount(3, $form->children);
+        $this->assertSame('label_translation_domain', $form->children['placeholder']->vars['translation_domain']);
+        $this->assertSame('choice_translation_domain', $form->children[0]->vars['translation_domain']);
+        $this->assertSame('choice_translation_domain', $form->children[1]->vars['translation_domain']);
+    }
+
+    public function testPlaceholderSubFormTranslatedWhenChoiceTranslationDomainIsFalse()
+    {
+        $form = $this->factory->create(static::TESTED_TYPE, null, [
+            'label' => 'label',
+            'translation_domain' => 'messages',
+            'choices' => [
+                'choice1' => 'a',
+                'choice2' => 'b',
+            ],
+            'choice_translation_domain' => false,
+            'placeholder' => 'Select an option',
+            'expanded' => true,
+            'required' => false,
+        ])->createView();
+
+        $this->assertCount(3, $form->children);
+        $this->assertSame('messages', $form->children['placeholder']->vars['translation_domain']);
+        $this->assertFalse($form->children[0]->vars['translation_domain']);
+        $this->assertFalse($form->children[1]->vars['translation_domain']);
+    }
+
     #[DataProvider('provideTrimCases')]
     public function testTrimIsDisabled($multiple, $expanded)
     {
