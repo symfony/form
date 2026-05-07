@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\DataMapper\DataMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -114,6 +115,43 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
         $this->requestHandler->handleRequest($form, $this->request);
 
         $this->assertEquals(['subform' => ['checkbox' => false]], $form->getData());
+    }
+
+    #[DataProvider('methodExceptPatchProvider')]
+    public function testSubmitExpandedMultipleChoiceWithPartialDataDoesNotEmitArrayFlipWarning($method)
+    {
+        $form = $this->factory->createNamed('roles', ChoiceType::class, null, [
+            'method' => $method,
+            'multiple' => true,
+            'expanded' => true,
+            'choices' => [
+                'User' => 'ROLE_USER',
+                'Admin' => 'ROLE_ADMIN',
+                'Super Admin' => 'ROLE_SUPER_ADMIN',
+            ],
+        ]);
+
+        $this->setRequestData($method, [
+            'roles' => ['ROLE_USER'],
+        ]);
+
+        $warnings = [];
+        set_error_handler(static function (int $severity, string $message) use (&$warnings): bool {
+            if (str_contains($message, 'array_flip')) {
+                $warnings[] = $message;
+            }
+
+            return true;
+        });
+
+        try {
+            $this->requestHandler->handleRequest($form, $this->request);
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $warnings, 'No array_flip() warnings should be emitted when only some checkboxes are checked.');
+        $this->assertSame(['ROLE_USER'], $form->getData());
     }
 
     #[DataProvider('methodExceptPatchProvider')]

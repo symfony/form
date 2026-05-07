@@ -123,7 +123,8 @@ class ChoiceType extends AbstractType
                 }
 
                 // A map from submitted values to integers
-                $valueMap = array_flip($data);
+		// `null` entries are produced by MissingDataHandler for unchecked checkbox children
+                $valueMap = array_flip(array_filter($data, static fn ($v) => null !== $v));
 
                 // Make a copy of the value map to determine whether any unknown
                 // values were submitted
