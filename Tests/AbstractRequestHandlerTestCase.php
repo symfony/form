@@ -75,7 +75,7 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
 
         $this->requestHandler->handleRequest($form, $this->request);
 
-        $this->assertEqualsCanonicalizing([false, false, false], $form->getData());
+        $this->assertSame([false, false, false], $form->getData());
     }
 
     #[DataProvider('methodExceptPatchProvider')]
@@ -94,7 +94,7 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
 
         $this->requestHandler->handleRequest($form, $this->request);
 
-        $this->assertEqualsCanonicalizing([false, true, false], $form->getData());
+        $this->assertSame([false, true, false], $form->getData());
     }
 
     #[DataProvider('methodExceptPatchProvider')]
@@ -139,9 +139,11 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
         set_error_handler(static function (int $severity, string $message) use (&$warnings): bool {
             if (str_contains($message, 'array_flip')) {
                 $warnings[] = $message;
+
+                return true;
             }
 
-            return true;
+            return false;
         });
 
         try {
