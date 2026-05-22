@@ -71,7 +71,7 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
             'method' => $method,
         ]);
 
-        $this->setRequestData($method, []);
+        $this->setRequestData($method, ['collection' => []]);
 
         $this->requestHandler->handleRequest($form, $this->request);
 
@@ -110,7 +110,7 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
         $form->get('subform')
             ->add('checkbox', CheckboxType::class);
 
-        $this->setRequestData($method, []);
+        $this->setRequestData($method, ['form' => []]);
 
         $this->requestHandler->handleRequest($form, $this->request);
 
@@ -156,18 +156,39 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
         $this->assertSame(['ROLE_USER'], $form->getData());
     }
 
-    #[DataProvider('methodExceptPatchProvider')]
-    public function testSubmitSimpleCheckboxFormWithEmptyData($method)
+    #[DataProvider('methodProvider')]
+    public function testDoNotSubmitAbsentNamedFormWithCheckboxesWhenRequestBodyContainsOtherData($method)
     {
-        $form = $this->factory->createNamed('checkbox', CheckboxType::class, true, [
-            'method' => $method,
-        ]);
+        $form = $this->factory->createNamed('form', FormType::class, null, ['method' => $method])
+            ->add('displayedColumns', ChoiceType::class, [
+                'choices' => ['foo' => 'foo', 'bar' => 'bar'],
+                'expanded' => true,
+                'multiple' => true,
+            ]);
 
-        $this->setRequestData($method, []);
+        $this->setRequestData($method, ['other_field' => 'value']);
 
         $this->requestHandler->handleRequest($form, $this->request);
 
-        $this->assertFalse($form->getData());
+        $this->assertFalse($form->isSubmitted());
+    }
+
+    #[DataProvider('methodExceptPatchProvider')]
+    public function testSubmitNamedFormWithMissingCheckboxesWhenFormKeyIsPresentInRequest($method)
+    {
+        $form = $this->factory->createNamed('form', FormType::class, null, ['method' => $method])
+            ->add('displayedColumns', ChoiceType::class, [
+                'choices' => ['foo' => 'foo', 'bar' => 'bar'],
+                'expanded' => true,
+                'multiple' => true,
+            ]);
+
+        $this->setRequestData($method, ['form' => []]);
+
+        $this->requestHandler->handleRequest($form, $this->request);
+
+        $this->assertTrue($form->isSubmitted());
+        $this->assertSame([], $form->get('displayedColumns')->getData());
     }
 
     public static function methodExceptPatchProvider(): array

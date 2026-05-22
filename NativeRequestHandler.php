@@ -67,13 +67,14 @@ class NativeRequestHandler implements RequestHandlerInterface
                 $data = $_GET;
             } else {
                 $queryData = $_GET[$name] ?? $missingData;
-                $data = $this->missingDataHandler->handle($form, $queryData);
 
-                if ($missingData === $data) {
+                if ($missingData === $queryData) {
                     // Don't submit GET requests if the form's name does not exist
                     // in the request
                     return;
                 }
+
+                $data = $this->missingDataHandler->handle($form, $queryData);
             }
         } else {
             // Mark the form with an error if the uploaded size was too large
@@ -109,13 +110,13 @@ class NativeRequestHandler implements RequestHandlerInterface
                 $files = null;
             }
 
-            if ('PATCH' !== $method) {
-                $params = $this->missingDataHandler->handle($form, $params);
-            }
-
             if ($missingData === $params) {
                 // Don't submit the form if it is not present in the request
                 return;
+            }
+
+            if ('PATCH' !== $method) {
+                $params = $this->missingDataHandler->handle($form, $params);
             }
 
             if (\is_array($params) && \is_array($files)) {
