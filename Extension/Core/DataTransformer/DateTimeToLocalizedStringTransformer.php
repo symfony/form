@@ -22,6 +22,15 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
  */
 class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
 {
+    /**
+     * Unicode whitespace characters used by ICU in formatted date strings.
+     *
+     * @see https://unicode-org.atlassian.net/browse/CLDR-14032
+     */
+    private const NO_BREAK_SPACE = "\u{00A0}";
+    private const NARROW_NO_BREAK_SPACE = "\u{202F}"; // Used by ICU 72+ before AM/PM
+    private const THIN_SPACE = "\u{2009}";
+
     private $dateFormat;
     private $timeFormat;
     private $pattern;
@@ -91,7 +100,7 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
             throw new TransformationFailedException(intl_get_error_message());
         }
 
-        return $value;
+        return self::normalizeWhitespace($value);
     }
 
     /**
@@ -119,11 +128,7 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
         $dateOnly = $this->isPatternDateOnly();
         $dateFormatter = $this->getIntlDateFormatter($dateOnly);
 
-        try {
-            $timestamp = @$dateFormatter->parse($value);
-        } catch (\IntlException $e) {
-            throw new TransformationFailedException($e->getMessage(), $e->getCode(), $e);
-        }
+        $timestamp = $this->parse($dateFormatter, $value);
 
         if (0 != intl_get_error_code()) {
             throw new TransformationFailedException(intl_get_error_message(), intl_get_error_code());
@@ -204,5 +209,34 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
 
         // check for the absence of time-related placeholders
         return 0 === preg_match('#[ahHkKmsSAzZOvVxX]#', $pattern);
+    }
+
+    private static function normalizeWhitespace(string $string): string
+    {
+        return str_replace([self::NO_BREAK_SPACE, self::NARROW_NO_BREAK_SPACE, self::THIN_SPACE], ' ', $string);
+    }
+
+    /**
+     * @return int|float|false
+     */
+    private function parse(\IntlDateFormatter $dateFormatter, string $value)
+    {
+        try {
+            $timestamp = @$dateFormatter->parse($value);
+        } catch (\IntlException $e) {
+            throw new TransformationFailedException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        // If parsing failed and the value contains regular spaces, try with ICU 72+ whitespace
+        if ((false === $timestamp || 0 !== intl_get_error_code()) && str_contains($value, ' ')) {
+            $icuValue = str_replace(' ', self::NARROW_NO_BREAK_SPACE, $value);
+
+            try {
+                $timestamp = @$dateFormatter->parse($icuValue);
+            } catch (\IntlException $e) {
+            }
+        }
+
+        return $timestamp;
     }
 }
