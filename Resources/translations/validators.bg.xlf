@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Моля въведете валидна седмица.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Моля въведете валиден UUID.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
