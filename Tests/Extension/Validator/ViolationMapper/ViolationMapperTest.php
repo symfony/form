@@ -28,6 +28,9 @@ use Symfony\Component\Form\Tests\Extension\Validator\ViolationMapper\Fixtures\Is
 use Symfony\Component\Form\Tests\Fixtures\DummyFormRendererEngine;
 use Symfony\Component\Form\Tests\Fixtures\FixedTranslator;
 use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -1625,6 +1628,44 @@ class ViolationMapperTest extends TestCase
             /** @var FormError $error */
             $error = $errors[0];
             $this->assertSame('Message Translated Label', $error->getMessage());
+        }
+    }
+
+    public function testMessageWithTranslatableLabel()
+    {
+        $translator = new Translator('en');
+        $translator->addLoader('array', new ArrayLoader());
+        $translator->addResource('array', ['options_label' => 'Translated %what% Label'], 'en', 'custom_domain');
+
+        $this->mapper = new ViolationMapper(null, $translator);
+
+        $parent = $this->getForm('parent');
+
+        $config = new FormConfigBuilder('name', null, $this->dispatcher, [
+            'error_mapping' => [],
+            'label' => new TranslatableMessage('options_label', ['%what%' => 'Custom'], 'custom_domain'),
+        ]);
+        $config->setMapped(true);
+        $config->setInheritData(false);
+        $config->setPropertyPath('name');
+        $config->setCompound(true);
+        $config->setDataMapper(new DataMapper());
+
+        $child = new Form($config);
+        $parent->add($child);
+
+        $parent->submit([]);
+
+        $violation = new ConstraintViolation('Message {{ label }}', null, [], null, 'data.name', null);
+        $this->mapper->mapViolation($violation, $parent);
+
+        $this->assertCount(1, $child->getErrors(), $child->getName().' should have an error, but has none');
+
+        $errors = iterator_to_array($child->getErrors());
+        if (isset($errors[0])) {
+            /** @var FormError $error */
+            $error = $errors[0];
+            $this->assertSame('Message Translated Custom Label', $error->getMessage());
         }
     }
 

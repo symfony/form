@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Please enter a valid week.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target>Please enter a valid UUID.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

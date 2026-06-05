@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Mesedez, sartu baliozko aste bat.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Mesedez, sartu baliozko UUID bat.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
