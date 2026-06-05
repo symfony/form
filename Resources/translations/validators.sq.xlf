@@ -143,6 +143,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Ju lutemi shkruani një javë të vlefshme.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Ju lutemi shkruani një UUID të vlefshëm.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

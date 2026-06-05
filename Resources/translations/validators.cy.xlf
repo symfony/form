@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target state="needs-review-translation">Nodwch wythnos ddilys.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Nodwch UUID dilys.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

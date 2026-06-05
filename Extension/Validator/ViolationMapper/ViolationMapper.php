@@ -21,6 +21,7 @@ use Symfony\Component\PropertyAccess\PropertyPathIterator;
 use Symfony\Component\PropertyAccess\PropertyPathIteratorInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -179,24 +180,28 @@ class ViolationMapper implements ViolationMapperInterface
                     }
 
                     if (null !== $this->translator) {
-                        $form = $scope;
-                        $translationParameters[] = $form->getConfig()->getOption('label_translation_parameters', []);
+                        if ($label instanceof TranslatableInterface) {
+                            $label = $label->trans($this->translator);
+                        } else {
+                            $form = $scope;
+                            $translationParameters[] = $form->getConfig()->getOption('label_translation_parameters', []);
 
-                        do {
-                            $translationDomain = $form->getConfig()->getOption('translation_domain');
-                            array_unshift(
+                            do {
+                                $translationDomain = $form->getConfig()->getOption('translation_domain');
+                                array_unshift(
+                                    $translationParameters,
+                                    $form->getConfig()->getOption('label_translation_parameters', [])
+                                );
+                            } while (null === $translationDomain && null !== $form = $form->getParent());
+
+                            $translationParameters = array_merge([], ...$translationParameters);
+
+                            $label = $this->translator->trans(
+                                $label,
                                 $translationParameters,
-                                $form->getConfig()->getOption('label_translation_parameters', [])
+                                $translationDomain
                             );
-                        } while (null === $translationDomain && null !== $form = $form->getParent());
-
-                        $translationParameters = array_merge([], ...$translationParameters);
-
-                        $label = $this->translator->trans(
-                            $label,
-                            $translationParameters,
-                            $translationDomain
-                        );
+                        }
                     }
 
                     $message = str_replace('{{ label }}', $label, $message);
