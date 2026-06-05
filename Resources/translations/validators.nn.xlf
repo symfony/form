@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Gje opp ei gyldig veke.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Gje opp ein gyldig UUID.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

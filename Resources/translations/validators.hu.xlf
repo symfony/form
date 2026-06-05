@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Kérjük, adjon meg egy érvényes hetet.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Kérjük, adjon meg egy érvényes UUID-t.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

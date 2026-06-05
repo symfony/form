@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>براۓ کرم ایک درست ہفتہ درج کریں</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">براۓ کرم ایک درست UUID درج کریں</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

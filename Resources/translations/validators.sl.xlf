@@ -134,6 +134,10 @@
                 <source>Please enter a valid week.</source>
                 <target>Prosimo, vnesite veljaven teden.</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>Please enter a valid UUID.</source>
+                <target state="needs-review-translation">Prosimo, vnesite veljaven UUID.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
