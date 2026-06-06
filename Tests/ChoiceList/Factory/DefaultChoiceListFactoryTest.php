@@ -255,7 +255,7 @@ class DefaultChoiceListFactoryTest extends TestCase
         $value = static function () {};
         $list = $this->factory->createListFromLoader($loader, $value);
 
-        $this->assertEquals(new LazyChoiceList($loader, $value), $list);
+        $this->assertEqualsLazyChoiceList(new LazyChoiceList($loader, $value), $list);
     }
 
     public function testCreateFromLoaderWithFilter()
