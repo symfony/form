@@ -28,6 +28,7 @@ use Symfony\Component\Form\FormRegistry;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\RequestHandlerInterface;
 use Symfony\Component\Form\ResolvedFormTypeFactory;
+use Symfony\Component\Form\Tests\Extension\Type\CheckboxCollectionEntryType;
 use Symfony\Component\Form\Tests\Extension\Type\ItemFileType;
 use Symfony\Component\Form\Util\ServerParams;
 
@@ -95,6 +96,29 @@ abstract class AbstractRequestHandlerTestCase extends TestCase
         $this->requestHandler->handleRequest($form, $this->request);
 
         $this->assertSame([false, true, false], $form->getData());
+    }
+
+    #[DataProvider('methodExceptPatchProvider')]
+    public function testSubmitCollectionFormWithAllowDeleteRemovesMissingEntries($method)
+    {
+        $form = $this->factory->create(CollectionType::class, [
+            ['name' => 'first', 'active' => true],
+            ['name' => 'second', 'active' => true],
+        ], [
+            'entry_type' => CheckboxCollectionEntryType::class,
+            'allow_delete' => true,
+            'method' => $method,
+        ]);
+
+        $this->setRequestData($method, [
+            'collection' => [
+                0 => ['name' => 'first', 'active' => '1'],
+            ],
+        ]);
+
+        $this->requestHandler->handleRequest($form, $this->request);
+
+        $this->assertSame([0 => ['name' => 'first', 'active' => true]], $form->getData());
     }
 
     #[DataProvider('methodExceptPatchProvider')]

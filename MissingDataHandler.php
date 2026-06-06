@@ -62,6 +62,7 @@ class MissingDataHandler
 
         if (\is_array($data)) {
             $children = $config->getCompound() ? $form->all() : [$form];
+            $allowDelete = $config->getOption('allow_delete', false);
 
             foreach ($children as $child) {
                 $name = $child->getName();
@@ -69,6 +70,9 @@ class MissingDataHandler
 
                 if (\array_key_exists($name, $data)) {
                     $childData = $data[$name];
+                } elseif ($allowDelete) {
+                    // Don't re-add a deleted collection entry so ResizeFormListener can remove it.
+                    continue;
                 }
 
                 $value = $this->handleMissingData($child, $childData);
