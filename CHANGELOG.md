@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+8.2
+---
+
+ * Add `inputmode="numeric"` to `IntegerType` when the `grouping` option is enabled
+
 8.1
 ---
 
